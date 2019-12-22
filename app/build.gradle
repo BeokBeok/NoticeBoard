@@ -37,8 +37,7 @@ dependencies {
     implementation Libraries.CORE_KTX
     implementation Libraries.CONSTRAINT_LAYOUT
 
-    androidTestImplementation Libraries.JUNIT
-    androidTestImplementation Libraries.ESPRESSO_CORE
+    testImplementation Libraries.JUNIT
 
     implementation Libraries.FIREBASE_ANALYTICS
     implementation Libraries.FIREBASE_AUTH
