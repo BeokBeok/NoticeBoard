@@ -44,4 +44,6 @@ dependencies {
     implementation Libraries.FIREBASE_AUTH
 
     implementation Libraries.PLAY_SERVICES_AUTH
+
+    implementation Libraries.LIFECYCLE_VM
 }
