@@ -37,5 +37,6 @@ dependencies {
 
     implementation Libraries.FIREBASE_ANALYTICS
     implementation Libraries.FIREBASE_AUTH
-    implementation Libraries.FIREBASE_UI_AUTH
+
+    implementation Libraries.PLAY_SERVICES_AUTH
 }
