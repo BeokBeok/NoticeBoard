@@ -9,7 +9,7 @@ object Version {
 
     const val FIREBASE_ANALYTICS = "17.2.1"
     const val FIREBASE_AUTH = "19.2.0"
-    const val FIREBASE_UI_AUTH = "4.3.1"
+    const val PLAY_SERVICES_AUTH = "17.0.0"
 }
 
 object Libraries {
@@ -25,5 +25,6 @@ object Libraries {
     const val FIREBASE_ANALYTICS =
         "com.google.firebase:firebase-analytics:${Version.FIREBASE_ANALYTICS}"
     const val FIREBASE_AUTH = "com.google.firebase:firebase-auth:${Version.FIREBASE_AUTH}"
-    const val FIREBASE_UI_AUTH = "com.firebaseui:firebase-ui-auth:${Version.FIREBASE_UI_AUTH}"
+    const val PLAY_SERVICES_AUTH =
+        "com.google.android.gms:play-services-auth:${Version.PLAY_SERVICES_AUTH}"
 }
