@@ -12,6 +12,8 @@ object Version {
     const val PLAY_SERVICES_AUTH = "17.0.0"
 
     const val LIFECYCLE_VM = "2.1.0"
+
+    const val DAGGER = "2.25.2"
 }
 
 object Libraries {
@@ -31,4 +33,7 @@ object Libraries {
         "com.google.android.gms:play-services-auth:${Version.PLAY_SERVICES_AUTH}"
 
     const val LIFECYCLE_VM = "androidx.lifecycle:lifecycle-viewmodel:${Version.LIFECYCLE_VM}"
+
+    const val DAGGER = "com.google.dagger:dagger:${Version.DAGGER}"
+    const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Version.DAGGER}"
 }

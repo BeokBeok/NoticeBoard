@@ -46,4 +46,7 @@ dependencies {
     implementation Libraries.PLAY_SERVICES_AUTH
 
     implementation Libraries.LIFECYCLE_VM
+
+    implementation Libraries.DAGGER
+    kapt Libraries.DAGGER_COMPILER
 }
