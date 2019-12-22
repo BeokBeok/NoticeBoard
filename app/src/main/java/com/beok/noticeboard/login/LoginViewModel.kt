@@ -18,12 +18,16 @@ class LoginViewModel(private val googleSignInClient: GoogleSignInClient) : ViewM
     private val _startActivityForResultEvent = MutableLiveData<Event<ActivityCommand>>()
     val startActivityForResultEvent: LiveData<Event<ActivityCommand>>
         get() = _startActivityForResultEvent
+
     private val _isSuccessLogin = MutableLiveData<Boolean>()
     val isSuccessLogin: LiveData<Boolean> get() = _isSuccessLogin
+
     private val _errMsg = MutableLiveData<String>()
     val errMsg: LiveData<String> get() = _errMsg
 
     private val auth = FirebaseAuth.getInstance()
+
+    fun existCurrentUser(): Boolean = auth.currentUser != null
 
     fun signIn() {
         val signInIntent = googleSignInClient.signInIntent

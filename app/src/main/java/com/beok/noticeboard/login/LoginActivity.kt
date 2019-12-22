@@ -6,9 +6,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.beok.noticeboard.MainActivity
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityLoginBinding
+import com.beok.noticeboard.profile.MainActivity
 import com.beok.noticeboard.utils.ActivityCommand
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupDataBinding()
+        goActivityIfLoggedIn()
         setupObserver()
     }
 
@@ -43,10 +44,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupDataBinding() {
-        binding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_login
-        )
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = viewModel
     }
 
@@ -79,6 +77,12 @@ class LoginActivity : AppCompatActivity() {
                 showToast(it)
             }
         )
+    }
+
+    private fun goActivityIfLoggedIn() {
+        if (viewModel.existCurrentUser()) {
+            MainActivity.startActivity(this)
+        }
     }
 
     private fun showToast(msg: String) =
