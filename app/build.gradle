@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -23,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -32,10 +37,16 @@ dependencies {
     implementation Libraries.CORE_KTX
     implementation Libraries.CONSTRAINT_LAYOUT
 
-    androidTestImplementation Libraries.JUNIT
-    androidTestImplementation Libraries.ESPRESSO_CORE
+    testImplementation Libraries.JUNIT
 
     implementation Libraries.FIREBASE_ANALYTICS
     implementation Libraries.FIREBASE_AUTH
-    implementation Libraries.FIREBASE_UI_AUTH
+
+    implementation Libraries.PLAY_SERVICES_AUTH
+
+    implementation Libraries.LIFECYCLE_VM
+    implementation Libraries.LIFECYCLE_EXT
+
+    implementation Libraries.DAGGER
+    kapt Libraries.DAGGER_COMPILER
 }
