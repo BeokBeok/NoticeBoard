@@ -6,30 +6,31 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityLoginBinding
 import com.beok.noticeboard.profile.MainActivity
 import com.beok.noticeboard.utils.ActivityCommand
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import javax.inject.Inject
 
 
 class LoginActivity : AppCompatActivity() {
 
-    private val viewModel: LoginViewModel by lazy {
-        LoginViewModel(
-            googleSignInClient = GoogleSignIn.getClient(
-                this,
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build()
-            )
-        )
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory)[LoginViewModel::class.java]
     }
+
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApplication).appComponent.loginComponent()
+            .create(this)
+            .inject(this)
         super.onCreate(savedInstanceState)
         setupDataBinding()
         goActivityIfLoggedIn()
