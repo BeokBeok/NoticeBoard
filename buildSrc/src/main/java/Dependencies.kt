@@ -9,11 +9,14 @@ object Version {
 
     const val FIREBASE_ANALYTICS = "17.2.1"
     const val FIREBASE_AUTH = "19.2.0"
+
     const val PLAY_SERVICES_AUTH = "17.0.0"
 
     const val LIFECYCLE = "2.1.0"
 
     const val DAGGER = "2.25.2"
+
+    const val TEDIMGPICKER = "1.0.8"
 }
 
 object Libraries {
@@ -37,4 +40,6 @@ object Libraries {
 
     const val DAGGER = "com.google.dagger:dagger:${Version.DAGGER}"
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Version.DAGGER}"
+
+    const val TEDIMGPICKER = "gun0912.ted:tedimagepicker:${Version.TEDIMGPICKER}"
 }

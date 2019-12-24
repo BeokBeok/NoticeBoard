@@ -49,4 +49,6 @@ dependencies {
 
     implementation Libraries.DAGGER
     kapt Libraries.DAGGER_COMPILER
+
+    implementation Libraries.TEDIMGPICKER
 }

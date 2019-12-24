@@ -29,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
             .inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        binding.vm = viewModel
     }
 
     companion object {
