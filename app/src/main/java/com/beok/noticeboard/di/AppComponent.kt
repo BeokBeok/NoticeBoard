@@ -1,6 +1,7 @@
 package com.beok.noticeboard.di
 
 import com.beok.noticeboard.login.LoginComponent
+import com.beok.noticeboard.profile.ProfileComponent
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,4 +15,5 @@ interface AppComponent {
     }
 
     fun loginComponent(): LoginComponent.Factory
+    fun profileComponent(): ProfileComponent.Factory
 }
