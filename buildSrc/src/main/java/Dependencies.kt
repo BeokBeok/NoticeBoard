@@ -18,6 +18,8 @@ object Version {
     const val DAGGER = "2.25.2"
 
     const val TEDIMGPICKER = "1.0.8"
+
+    const val GLIDE = "4.10.0"
 }
 
 object Libraries {
@@ -46,4 +48,7 @@ object Libraries {
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Version.DAGGER}"
 
     const val TEDIMGPICKER = "gun0912.ted:tedimagepicker:${Version.TEDIMGPICKER}"
+
+    const val GLIDE = "com.github.bumptech.glide:glide:${Version.GLIDE}"
+    const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Version.GLIDE}"
 }

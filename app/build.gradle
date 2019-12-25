@@ -52,4 +52,7 @@ dependencies {
     kapt Libraries.DAGGER_COMPILER
 
     implementation Libraries.TEDIMGPICKER
+
+    implementation Libraries.GLIDE
+    annotationProcessor Libraries.GLIDE_COMPILER
 }
