@@ -41,6 +41,7 @@ dependencies {
 
     implementation Libraries.FIREBASE_ANALYTICS
     implementation Libraries.FIREBASE_AUTH
+    implementation Libraries.FIREBASE_STORAGE
 
     implementation Libraries.PLAY_SERVICES_AUTH
 
@@ -49,4 +50,9 @@ dependencies {
 
     implementation Libraries.DAGGER
     kapt Libraries.DAGGER_COMPILER
+
+    implementation Libraries.TEDIMGPICKER
+
+    implementation Libraries.GLIDE
+    annotationProcessor Libraries.GLIDE_COMPILER
 }
