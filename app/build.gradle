@@ -8,6 +8,8 @@ apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: "scabbard.gradle"
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -26,6 +28,9 @@ android {
         }
     }
     dataBinding {
+        enabled true
+    }
+    scabbard {
         enabled true
     }
 }
