@@ -84,6 +84,7 @@
             android:layout_marginEnd="12dp"
             android:src="@drawable/ic_add_white_24dp"
             app:layout_anchor="@id/app_bar"
+            onClickDayLife="@{vm.startDayLifeActivityForResult}"
             app:layout_anchorGravity="bottom|end" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,9 +1,12 @@
 package com.beok.noticeboard.profile
 
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.beok.noticeboard.utils.ActivityCommand
+import com.beok.noticeboard.utils.Event
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -25,8 +28,17 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private val _profileName = MutableLiveData<String>()
     val profileName: LiveData<String> get() = _profileName
 
+    private val _startActivityForResultEvent = MutableLiveData<Event<ActivityCommand>>()
+    val startActivityForResultEvent: LiveData<Event<ActivityCommand>>
+        get() = _startActivityForResultEvent
+
     val showPicker = fun(uri: Uri) {
         uploadProfileImage(uri)
+    }
+
+    val startDayLifeActivityForResult = fun(dayLifeIntent: Intent) {
+        _startActivityForResultEvent.value =
+            Event(ActivityCommand.StartActivityForResult(dayLifeIntent, REQ_POST_DAY_LIFE))
     }
 
     fun setupProfile() {
@@ -87,5 +99,9 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private fun showProgressbar() {
         _isLoading.value = true
+    }
+
+    companion object {
+        private const val REQ_POST_DAY_LIFE = 744
     }
 }

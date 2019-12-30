@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityProfileBinding
+import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.wrapper.Glide
 import javax.inject.Inject
 
@@ -37,18 +38,32 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        viewModel.imageUri.observe(
-            this,
-            Observer { imageUri ->
-                Glide.showImageForCenterCrop(binding.ivProfile, imageUri)
-            }
-        )
-        viewModel.isLoading.observe(
-            this,
-            Observer {
-                binding.pbLoading.isVisible = it
-            }
-        )
+        val owner = this@ProfileActivity
+        viewModel.run {
+            imageUri.observe(
+                owner,
+                Observer { imageUri ->
+                    Glide.showImageForCenterCrop(binding.ivProfile, imageUri)
+                }
+            )
+            isLoading.observe(
+                owner,
+                Observer {
+                    binding.pbLoading.isVisible = it
+                }
+            )
+            startActivityForResultEvent.observe(
+                owner,
+                Observer {
+                    it.getContentIfNotHandled()?.let { cmd ->
+                        if (cmd is ActivityCommand.StartActivityForResult) {
+                            startActivityForResult(cmd.intent, cmd.requestCode)
+                        }
+                    }
+                }
+            )
+        }
+
     }
 
     private fun setupBinding() {
