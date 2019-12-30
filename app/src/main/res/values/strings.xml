@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">NoticeBoard</string>
-    <string name="msg_login_fail">로그인 싳패</string>
+    <string name="msg_login_fail">로그인 실패</string>
 </resources>
