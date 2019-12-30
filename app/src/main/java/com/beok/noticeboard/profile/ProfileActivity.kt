@@ -40,7 +40,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModel.imageUri.observe(
             this,
             Observer { imageUri ->
-                Glide.showImageForCircleCrop(binding.ivProfile, imageUri)
+                Glide.showImageForCenterCrop(binding.ivProfile, imageUri)
             }
         )
         viewModel.isLoading.observe(

@@ -7,11 +7,11 @@ import com.bumptech.glide.Glide
 
 object Glide {
 
-    fun showImageForCircleCrop(iv: ImageView, uri: Uri) {
+    fun showImageForCenterCrop(iv: ImageView, uri: Uri) {
         Glide.with(iv.context)
             .load(uri)
             .placeholder(R.mipmap.ic_launcher)
-            .circleCrop()
+            .centerCrop()
             .into(iv)
     }
 }
