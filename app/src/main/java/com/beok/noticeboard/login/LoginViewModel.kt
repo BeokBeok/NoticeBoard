@@ -34,12 +34,7 @@ class LoginViewModel @Inject constructor(private val googleSignInClient: GoogleS
     fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         _startActivityForResultEvent.value =
-            Event(
-                ActivityCommand.StartActivityForResult(
-                    signInIntent,
-                    REQ_RC_SIGN_IN
-                )
-            )
+            Event(ActivityCommand.StartActivityForResult(signInIntent, REQ_RC_SIGN_IN))
     }
 
     fun onResultFromActivity(requestCode: Int, data: Intent?) {
