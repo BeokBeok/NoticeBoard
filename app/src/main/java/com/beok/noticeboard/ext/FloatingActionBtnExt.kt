@@ -5,10 +5,10 @@ import androidx.databinding.BindingAdapter
 import com.beok.noticeboard.dailylife.DayLifeActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-@BindingAdapter("onClickDayLife")
-fun FloatingActionButton.onClickDayLife(startDayLifeActivityForResult: (Intent) -> Unit) {
+@BindingAdapter("onStartDayLifeActivity")
+fun FloatingActionButton.onStartDayLifeActivity(dayLifeActivityStart: (Intent) -> Unit) {
     setOnClickListener {
         val intent = Intent(it.context, DayLifeActivity::class.java)
-        startDayLifeActivityForResult.invoke(intent)
+        dayLifeActivityStart.invoke(intent)
     }
 }

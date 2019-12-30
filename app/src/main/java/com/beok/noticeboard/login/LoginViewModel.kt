@@ -59,6 +59,6 @@ class LoginViewModel @Inject constructor(private val googleSignInClient: GoogleS
     }
 
     companion object {
-        const val REQ_RC_SIGN_IN = 676
+        private const val REQ_RC_SIGN_IN = 676
     }
 }

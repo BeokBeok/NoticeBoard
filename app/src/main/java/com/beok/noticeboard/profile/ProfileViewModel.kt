@@ -32,11 +32,11 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     val startActivityForResultEvent: LiveData<Event<ActivityCommand>>
         get() = _startActivityForResultEvent
 
-    val showPicker = fun(uri: Uri) {
+    val imgUpload = fun(uri: Uri) {
         uploadProfileImage(uri)
     }
 
-    val startDayLifeActivityForResult = fun(dayLifeIntent: Intent) {
+    val dayLifeActivityStart = fun(dayLifeIntent: Intent) {
         _startActivityForResultEvent.value =
             Event(ActivityCommand.StartActivityForResult(dayLifeIntent, REQ_POST_DAY_LIFE))
     }

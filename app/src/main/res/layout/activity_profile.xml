@@ -30,7 +30,7 @@
 
                 <ImageView
                     android:id="@+id/iv_profile"
-                    showPicker="@{vm.showPicker}"
+                    showImagePicker="@{vm.imgUpload}"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
                     android:contentDescription="@null"
@@ -84,7 +84,7 @@
             android:layout_marginEnd="12dp"
             android:src="@drawable/ic_add_white_24dp"
             app:layout_anchor="@id/app_bar"
-            onClickDayLife="@{vm.startDayLifeActivityForResult}"
+            onStartDayLifeActivity="@{vm.dayLifeActivityStart}"
             app:layout_anchorGravity="bottom|end" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
