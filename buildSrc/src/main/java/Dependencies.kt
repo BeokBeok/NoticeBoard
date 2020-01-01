@@ -39,7 +39,7 @@ object Libraries {
     const val FIREBASE_STORAGE =
         "com.google.firebase:firebase-storage-ktx:${Version.FIREBASE_STORAGE}"
     const val FIREBASE_FIRESTORE =
-        "com.google.firebase:firebase-firestore:${Version.FIREBASE_FIRESTORE}"
+        "com.google.firebase:firebase-firestore-ktx:${Version.FIREBASE_FIRESTORE}"
 
     const val PLAY_SERVICES_AUTH =
         "com.google.android.gms:play-services-auth:${Version.PLAY_SERVICES_AUTH}"
