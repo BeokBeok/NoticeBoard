@@ -14,9 +14,9 @@ object Version {
 
     const val PLAY_SERVICES_AUTH = "17.0.0"
 
-    const val LIFECYCLE = "2.1.0"
+    const val LIFECYCLE = "2.2.0-rc03"
 
-    const val DAGGER = "2.25.2"
+    const val DAGGER = "2.25.4"
 
     const val TEDIMGPICKER = "1.0.8"
 
