@@ -2,4 +2,6 @@
     <string name="app_name">NoticeBoard</string>
     <string name="msg_login_fail">로그인 실패</string>
     <string name="hint_input_day_life">일상을 작성해주세요.</string>
+    <string name="title_cancel">취소</string>
+    <string name="title_post">게시</string>
 </resources>
