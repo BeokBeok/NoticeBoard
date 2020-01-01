@@ -1,6 +1,7 @@
 package com.beok.noticeboard.dailylife
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.beok.noticeboard.R
@@ -13,6 +14,11 @@ class DayLifeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
+        setupUi()
+    }
+
+    private fun setupUi() {
+        binding.etDaylife.setRawInputType(InputType.TYPE_CLASS_TEXT)
     }
 
     private fun setupBinding() {
