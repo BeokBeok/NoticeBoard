@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityProfileBinding
@@ -22,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)[ProfileViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
 
     private lateinit var binding: ActivityProfileBinding

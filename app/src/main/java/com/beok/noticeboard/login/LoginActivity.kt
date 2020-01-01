@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityLoginBinding
@@ -22,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)[LoginViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
     }
 
     private lateinit var binding: ActivityLoginBinding
