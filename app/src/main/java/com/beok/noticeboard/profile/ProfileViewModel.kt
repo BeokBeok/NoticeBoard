@@ -17,7 +17,10 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
     private val spaceRef =
-        FirebaseStorage.getInstance().reference.child("images/profile/${firebaseUser.email}.jpg")
+        FirebaseStorage.getInstance().reference
+            .child("${firebaseUser.email}")
+            .child("profile")
+            .child("${firebaseUser.displayName}.jpg")
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading

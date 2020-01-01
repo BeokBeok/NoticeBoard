@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="@{vm.profileName}"
-                        android:textColor="@color/black"
+                        android:textColor="@color/txt_white_gray"
                         android:textSize="24sp"
                         app:layout_collapseMode="pin"
                         tools:text="강현석" />
