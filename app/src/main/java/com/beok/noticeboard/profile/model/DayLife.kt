@@ -1,4 +1,4 @@
-package com.beok.noticeboard.profile
+package com.beok.noticeboard.profile.model
 
 import android.net.Uri
 

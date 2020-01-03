@@ -8,6 +8,7 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.RvDayLifeItemBinding
+import com.beok.noticeboard.profile.model.DayLife
 
 class ProfileAdapter(
     @LayoutRes
