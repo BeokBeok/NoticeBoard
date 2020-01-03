@@ -21,6 +21,8 @@ object Version {
     const val TEDIMGPICKER = "1.0.8"
 
     const val GLIDE = "4.10.0"
+
+    const val COROUTINE = "1.3.3"
 }
 
 object Libraries {
@@ -54,4 +56,6 @@ object Libraries {
 
     const val GLIDE = "com.github.bumptech.glide:glide:${Version.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Version.GLIDE}"
+
+    const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.COROUTINE}"
 }

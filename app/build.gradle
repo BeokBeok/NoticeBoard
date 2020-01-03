@@ -61,4 +61,6 @@ dependencies {
 
     implementation Libraries.GLIDE
     annotationProcessor Libraries.GLIDE_COMPILER
+
+    implementation Libraries.COROUTINE
 }
