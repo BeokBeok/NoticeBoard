@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
@@ -75,22 +76,30 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
             .addOnSuccessListener { result ->
                 dayLifeItem.clear()
                 for (document in result) {
-                    dayLifeSpaceRef.child("${document.id}.jpg").downloadUrl
-                        .addOnCompleteListener { task ->
-                            if (!task.isSuccessful) return@addOnCompleteListener
-                            dayLifeItem.add(
-                                DayLife(
-                                    task.result,
-                                    document.data["posts"].toString()
-                                )
-                            )
-                            _dayLife.value =
-                                dayLifeItem.sortedByDescending { it.imageUrl.toString() }
-                        }
+                    takeDayLifeData(document)
                 }
                 hideProgressbar()
             }
             .addOnFailureListener { hideProgressbar() }
+    }
+
+    private fun takeDayLifeData(document: QueryDocumentSnapshot) {
+        dayLifeSpaceRef.child("${document.id}.jpg").downloadUrl
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) return@addOnCompleteListener
+                dayLifeItem.add(
+                    DayLife(
+                        task.result,
+                        document.data["posts"].toString()
+                    )
+                )
+                setDayLifeItem()
+            }
+    }
+
+    private fun setDayLifeItem() {
+        _dayLife.value =
+            dayLifeItem.sortedByDescending { it.imageUrl.toString() }
     }
 
     private fun showProfileName() {
