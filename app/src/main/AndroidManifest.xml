@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".dailylife.DayLifeActivity" />
     </application>
 
 </manifest>

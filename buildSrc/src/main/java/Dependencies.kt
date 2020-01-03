@@ -10,16 +10,19 @@ object Version {
     const val FIREBASE_ANALYTICS = "17.2.1"
     const val FIREBASE_AUTH = "19.2.0"
     const val FIREBASE_STORAGE = "19.1.0"
+    const val FIREBASE_FIRESTORE = "21.3.1"
 
     const val PLAY_SERVICES_AUTH = "17.0.0"
 
-    const val LIFECYCLE = "2.1.0"
+    const val LIFECYCLE = "2.2.0-rc03"
 
-    const val DAGGER = "2.25.2"
+    const val DAGGER = "2.25.4"
 
     const val TEDIMGPICKER = "1.0.8"
 
     const val GLIDE = "4.10.0"
+
+    const val COROUTINE = "1.3.3"
 }
 
 object Libraries {
@@ -37,6 +40,8 @@ object Libraries {
     const val FIREBASE_AUTH = "com.google.firebase:firebase-auth:${Version.FIREBASE_AUTH}"
     const val FIREBASE_STORAGE =
         "com.google.firebase:firebase-storage-ktx:${Version.FIREBASE_STORAGE}"
+    const val FIREBASE_FIRESTORE =
+        "com.google.firebase:firebase-firestore-ktx:${Version.FIREBASE_FIRESTORE}"
 
     const val PLAY_SERVICES_AUTH =
         "com.google.android.gms:play-services-auth:${Version.PLAY_SERVICES_AUTH}"
@@ -51,4 +56,6 @@ object Libraries {
 
     const val GLIDE = "com.github.bumptech.glide:glide:${Version.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Version.GLIDE}"
+
+    const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.COROUTINE}"
 }

@@ -8,10 +8,10 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityProfileBinding
+import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.wrapper.Glide
 import javax.inject.Inject
 
@@ -21,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory)[ProfileViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
     }
 
     private lateinit var binding: ActivityProfileBinding
@@ -32,27 +32,59 @@ class ProfileActivity : AppCompatActivity() {
             .inject(this)
         super.onCreate(savedInstanceState)
         setupBinding()
-        viewModel.setupProfile()
+        setupUi()
         setupObserver()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK) return
+        viewModel.refreshDayLife()
+    }
+
+    private fun setupUi() {
+        binding.rvContent.run {
+            setHasFixedSize(true)
+            adapter = ProfileAdapter()
+        }
+        viewModel.run {
+            setupProfile()
+            refreshDayLife()
+        }
+    }
+
     private fun setupObserver() {
-        viewModel.imageUri.observe(
-            this,
-            Observer { imageUri ->
-                Glide.showImageForCircleCrop(binding.ivProfile, imageUri)
-            }
-        )
-        viewModel.isLoading.observe(
-            this,
-            Observer {
-                binding.pbLoading.isVisible = it
-            }
-        )
+        val owner = this@ProfileActivity
+        viewModel.run {
+            imageUri.observe(
+                owner,
+                Observer { imageUri ->
+                    Glide.showImageForCenterCrop(binding.ivProfile, imageUri)
+                }
+            )
+            isLoading.observe(
+                owner,
+                Observer {
+                    binding.pbLoading.isVisible = it
+                }
+            )
+            startActivityForResultEvent.observe(
+                owner,
+                Observer {
+                    it.getContentIfNotHandled()?.let { cmd ->
+                        if (cmd is ActivityCommand.StartActivityForResult) {
+                            startActivityForResult(cmd.intent, cmd.requestCode)
+                        }
+                    }
+                }
+            )
+        }
+
     }
 
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        binding.lifecycleOwner = this
         binding.vm = viewModel
     }
 

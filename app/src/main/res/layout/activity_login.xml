@@ -18,7 +18,7 @@
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_sign_in"
-            onClick="@{() -> viewModel.signIn()}"
+            onClickSignIn="@{() -> viewModel.signIn()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
