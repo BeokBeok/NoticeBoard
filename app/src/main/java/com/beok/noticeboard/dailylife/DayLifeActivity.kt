@@ -56,6 +56,7 @@ class DayLifeActivity : AppCompatActivity() {
 
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_day_life)
+        binding.lifecycleOwner = this
         binding.vm = viewModel
     }
 }

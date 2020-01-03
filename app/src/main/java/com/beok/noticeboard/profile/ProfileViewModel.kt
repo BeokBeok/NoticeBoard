@@ -10,17 +10,22 @@ import com.beok.noticeboard.utils.Event
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
-    private val spaceRef =
-        FirebaseStorage.getInstance().reference
-            .child("${firebaseUser.email}")
-            .child("profile")
-            .child("${firebaseUser.displayName}.jpg")
+    private val spaceRef = FirebaseStorage.getInstance().reference
+        .child("${firebaseUser.email}")
+    private val profileSpaceRef = spaceRef
+        .child("profile")
+        .child("${firebaseUser.displayName}.jpg")
+    private val dayLifeSpaceRef = spaceRef
+        .child("daylife")
+    private val dayLifeCollectionRef = FirebaseFirestore.getInstance()
+        .collection("daylife")
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -35,6 +40,11 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     val startActivityForResultEvent: LiveData<Event<ActivityCommand>>
         get() = _startActivityForResultEvent
 
+    private val _dayLife = MutableLiveData<List<DayLife>>()
+    val dayLife: LiveData<List<DayLife>> get() = _dayLife
+
+    private val dayLifeItem = mutableListOf<DayLife>()
+
     val imgUpload = fun(uri: Uri) {
         uploadProfileImage(uri)
     }
@@ -46,7 +56,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     fun setupProfile() {
         showProgressbar()
-        spaceRef.downloadUrl
+        profileSpaceRef.downloadUrl
             .addOnCompleteListener { task ->
                 hideProgressbar()
                 if (!task.isSuccessful) {
@@ -58,19 +68,43 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
         showProfileName()
     }
 
+    fun refreshDayLife() {
+        showProgressbar()
+        dayLifeCollectionRef.get()
+            .addOnSuccessListener { result ->
+                dayLifeItem.clear()
+                for (document in result) {
+                    dayLifeSpaceRef.child("${document.id}.jpg").downloadUrl
+                        .addOnCompleteListener { task ->
+                            if (!task.isSuccessful) return@addOnCompleteListener
+                            dayLifeItem.add(
+                                DayLife(
+                                    task.result,
+                                    document.data["posts"].toString()
+                                )
+                            )
+                            _dayLife.value =
+                                dayLifeItem.sortedByDescending { it.imageUrl.toString() }
+                        }
+                }
+                hideProgressbar()
+            }
+            .addOnFailureListener { hideProgressbar() }
+    }
+
     private fun showProfileName() {
         _profileName.value = firebaseUser.displayName
     }
 
     private fun uploadProfileImage(uri: Uri) {
         showProgressbar()
-        spaceRef.putFile(uri)
+        profileSpaceRef.putFile(uri)
             .continueWithTask { task ->
                 if (!task.isSuccessful) {
                     hideProgressbar()
                     error(task.exception ?: "")
                 }
-                spaceRef.downloadUrl
+                profileSpaceRef.downloadUrl
             }
             .addOnCompleteListener { task ->
                 hideProgressbar()

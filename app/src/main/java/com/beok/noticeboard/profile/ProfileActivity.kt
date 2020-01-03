@@ -32,8 +32,25 @@ class ProfileActivity : AppCompatActivity() {
             .inject(this)
         super.onCreate(savedInstanceState)
         setupBinding()
-        viewModel.setupProfile()
+        setupUi()
         setupObserver()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK) return
+        viewModel.refreshDayLife()
+    }
+
+    private fun setupUi() {
+        binding.rvContent.run {
+            setHasFixedSize(true)
+            adapter = ProfileAdapter()
+        }
+        viewModel.run {
+            setupProfile()
+            refreshDayLife()
+        }
     }
 
     private fun setupObserver() {
@@ -67,6 +84,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        binding.lifecycleOwner = this
         binding.vm = viewModel
     }
 

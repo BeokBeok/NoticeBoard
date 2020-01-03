@@ -14,4 +14,11 @@ object Glide {
             .centerCrop()
             .into(iv)
     }
+
+    fun showImage(iv: ImageView, uri: Uri) {
+        Glide.with(iv.context)
+            .load(uri)
+            .placeholder(R.mipmap.ic_launcher)
+            .into(iv)
+    }
 }

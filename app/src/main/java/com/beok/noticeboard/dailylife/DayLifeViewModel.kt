@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.util.*
 import javax.inject.Inject
 
 class DayLifeViewModel @Inject constructor() : ViewModel() {
@@ -18,11 +17,8 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
         FirebaseStorage.getInstance().reference
             .child("${firebaseUser.email}")
             .child("daylife")
-
-    private val documentRef = FirebaseFirestore.getInstance()
+    private val collectionRef = FirebaseFirestore.getInstance()
         .collection("daylife")
-        .document("${firebaseUser.email}")
-        .collection(getCurrentDateForYYMMDD())
 
     private val _imageUri = MutableLiveData<Uri>()
     val imageUri: LiveData<Uri> get() = _imageUri
@@ -89,16 +85,10 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
         val user = ArrayMap<String, String>()
         user["posts"] = posts
 
-        documentRef.document(uploadDate)
+        collectionRef.document(uploadDate)
             .set(user)
             .addOnSuccessListener { doPost() }
             .addOnCanceledListener { doCancel() }
-    }
-
-    private fun getCurrentDateForYYMMDD(): String {
-        Calendar.getInstance().run {
-            return "${get(Calendar.YEAR)}-${get(Calendar.MONTH) + 1}-${get(Calendar.DAY_OF_MONTH)}"
-        }
     }
 
     companion object {

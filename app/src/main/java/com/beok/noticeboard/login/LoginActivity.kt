@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupDataBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
     }
 
