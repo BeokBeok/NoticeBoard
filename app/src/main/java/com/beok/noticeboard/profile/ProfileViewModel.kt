@@ -47,6 +47,9 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private val dayLifeItem = mutableListOf<DayLife>()
 
+    private var totalItemSize: Int = 0
+    private var currentItemCnt: Int = 0
+
     val imgUpload = fun(uri: Uri) {
         uploadProfileImage(uri)
     }
@@ -75,6 +78,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
         dayLifeCollectionRef.get()
             .addOnSuccessListener { result ->
                 dayLifeItem.clear()
+                totalItemSize = result.count()
                 for (document in result) {
                     takeDayLifeData(document)
                 }
@@ -93,13 +97,17 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                         document.data["posts"].toString()
                     )
                 )
+                currentItemCnt++
                 setDayLifeItem()
             }
     }
 
     private fun setDayLifeItem() {
-        _dayLife.value =
-            dayLifeItem.sortedByDescending { it.imageUrl.toString() }
+        if (currentItemCnt == totalItemSize) {
+            _dayLife.value =
+                dayLifeItem.sortedByDescending { it.imageUrl.toString() }
+            currentItemCnt = 0
+        }
     }
 
     private fun showProfileName() {
