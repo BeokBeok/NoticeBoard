@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -60,12 +59,6 @@ class ProfileActivity : AppCompatActivity() {
                 owner,
                 Observer { imageUri ->
                     Glide.showImageForCenterCrop(binding.ivProfile, imageUri)
-                }
-            )
-            isLoading.observe(
-                owner,
-                Observer {
-                    binding.pbLoading.isVisible = it
                 }
             )
             startActivityForResultEvent.observe(
