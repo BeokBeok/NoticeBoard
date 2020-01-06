@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/iv_daylife"
-            showImagePicker="@{vm.imageUpload}"
+            showMultiImagePicker="@{vm.imageListUpload}"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="10dp"

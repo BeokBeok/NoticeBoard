@@ -41,8 +41,8 @@ class DayLifeActivity : AppCompatActivity() {
                 setResult(it)
                 finish()
             })
-            imageUri.observe(owner, Observer {
-                BeokGlide.showImageForCenterCrop(binding.ivDaylife, it)
+            imageUriList.observe(owner, Observer {
+                BeokGlide.showImageForCenterCrop(binding.ivDaylife, it[0])
             })
             isLoading.observe(owner, Observer {
                 binding.pbLoading.isVisible = it
