@@ -19,12 +19,11 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
-    private val spaceRef = FirebaseStorage.getInstance().reference
-        .child("${firebaseUser.email}")
-    private val profileSpaceRef = spaceRef
+    private val storeRef = FirebaseStorage.getInstance().reference
+    private val profileSpaceRef = storeRef
         .child("profile")
-        .child("${firebaseUser.displayName}.jpg")
-    private val dayLifeSpaceRef = spaceRef
+        .child("${firebaseUser.email}.jpg")
+    private val dayLifeSpaceRef = storeRef
         .child("daylife")
     private val dayLifeCollectionRef = FirebaseFirestore.getInstance()
         .collection("daylife")
