@@ -49,7 +49,7 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
                         if (!task.isSuccessful) return@addOnCompleteListener
                     }
             }
-            updateDayLifeDatabase(posts)
+            updateDayLifeDatabase(currentTime, posts)
         } ?: hideProgressbar()
     }
 
@@ -75,13 +75,13 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
         _imageUriList.value = uriList
     }
 
-    private fun updateDayLifeDatabase(posts: String) {
+    private fun updateDayLifeDatabase(currentTime: String, posts: String) {
         showProgressbar()
         val user = ArrayMap<String, Any>()
         user["imgCnt"] = _imageUriList.value?.size ?: 0
         user["posts"] = posts
 
-        fireStoreRef.document(System.currentTimeMillis().toString())
+        fireStoreRef.document(currentTime)
             .set(user)
             .addOnSuccessListener { doPost() }
             .addOnCanceledListener { doCancel() }

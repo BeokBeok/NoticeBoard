@@ -20,12 +20,12 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
     private val storeRef = FirebaseStorage.getInstance().reference
-    private val profileSpaceRef = storeRef
+    private val profileStoreRef = storeRef
         .child("profile")
         .child("${firebaseUser.email}.jpg")
-    private val dayLifeSpaceRef = storeRef
+    private val dayLifeStoreRef = storeRef
         .child("daylife")
-    private val dayLifeCollectionRef = FirebaseFirestore.getInstance()
+    private val dayLifeFireStoreRef = FirebaseFirestore.getInstance()
         .collection("daylife")
 
     private val _isLoading = MutableLiveData<Boolean>(false)
@@ -60,7 +60,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     fun setupProfile() {
         showProgressbar()
-        profileSpaceRef.downloadUrl
+        profileStoreRef.downloadUrl
             .addOnCompleteListener { task ->
                 hideProgressbar()
                 if (!task.isSuccessful) {
@@ -74,7 +74,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     fun refreshDayLife() {
         showProgressbar()
-        dayLifeCollectionRef.get()
+        dayLifeFireStoreRef.get()
             .addOnSuccessListener { result ->
                 dayLifeItem.clear()
                 totalItemSize = result.count()
@@ -87,7 +87,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun takeDayLifeData(document: QueryDocumentSnapshot) {
-        dayLifeSpaceRef.child("${document.id}.jpg").downloadUrl
+        dayLifeStoreRef.child(document.id).child("0.jpg").downloadUrl
             .addOnCompleteListener { task ->
                 if (!task.isSuccessful) return@addOnCompleteListener
                 dayLifeItem.add(
@@ -115,13 +115,13 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
 
     private fun uploadProfileImage(uri: Uri) {
         showProgressbar()
-        profileSpaceRef.putFile(uri)
+        profileStoreRef.putFile(uri)
             .continueWithTask { task ->
                 if (!task.isSuccessful) {
                     hideProgressbar()
                     error(task.exception ?: "")
                 }
-                profileSpaceRef.downloadUrl
+                profileStoreRef.downloadUrl
             }
             .addOnCompleteListener { task ->
                 hideProgressbar()
