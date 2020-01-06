@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityDayLifeBinding
-import com.beok.noticeboard.wrapper.Glide
+import com.beok.noticeboard.wrapper.BeokGlide
 import javax.inject.Inject
 
 class DayLifeActivity : AppCompatActivity() {
@@ -42,7 +42,7 @@ class DayLifeActivity : AppCompatActivity() {
                 finish()
             })
             imageUri.observe(owner, Observer {
-                Glide.showImageForCenterCrop(binding.ivDaylife, it)
+                BeokGlide.showImageForCenterCrop(binding.ivDaylife, it)
             })
             isLoading.observe(owner, Observer {
                 binding.pbLoading.isVisible = it

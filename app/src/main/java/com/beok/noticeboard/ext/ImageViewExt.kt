@@ -3,7 +3,7 @@ package com.beok.noticeboard.ext
 import android.net.Uri
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.beok.noticeboard.wrapper.Glide
+import com.beok.noticeboard.wrapper.BeokGlide
 import gun0912.tedimagepicker.builder.TedImagePicker
 
 @BindingAdapter("showImagePicker")
@@ -17,5 +17,5 @@ fun ImageView.showImagePicker(imgUpload: (uri: Uri) -> Unit) {
 @BindingAdapter("srcWithGlide")
 fun ImageView.srcWithGlide(uri: Uri?) {
     if (uri == null) return
-    Glide.showImage(this, uri)
+    BeokGlide.showImage(this, uri)
 }

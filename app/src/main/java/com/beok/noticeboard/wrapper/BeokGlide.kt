@@ -6,7 +6,7 @@ import com.beok.noticeboard.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-object Glide {
+object BeokGlide {
 
     fun showImageForCenterCrop(iv: ImageView, uri: Uri) {
         Glide.with(iv.context)

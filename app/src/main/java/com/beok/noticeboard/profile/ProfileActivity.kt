@@ -11,7 +11,7 @@ import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityProfileBinding
 import com.beok.noticeboard.utils.ActivityCommand
-import com.beok.noticeboard.wrapper.Glide
+import com.beok.noticeboard.wrapper.BeokGlide
 import javax.inject.Inject
 
 class ProfileActivity : AppCompatActivity() {
@@ -58,7 +58,7 @@ class ProfileActivity : AppCompatActivity() {
             imageUri.observe(
                 owner,
                 Observer { imageUri ->
-                    Glide.showImageForCenterCrop(binding.ivProfile, imageUri)
+                    BeokGlide.showImageForCenterCrop(binding.ivProfile, imageUri)
                 }
             )
             startActivityForResultEvent.observe(
