@@ -1,13 +1,14 @@
 package com.beok.noticeboard.di
 
 import com.beok.noticeboard.dailylife.DayLifeComponent
+import com.beok.noticeboard.data.FirebaseModule
 import com.beok.noticeboard.login.LoginComponent
 import com.beok.noticeboard.profile.ProfileComponent
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppSubComponent::class])
+@Component(modules = [AppSubComponent::class, FirebaseModule::class])
 interface AppComponent {
 
     @Component.Factory

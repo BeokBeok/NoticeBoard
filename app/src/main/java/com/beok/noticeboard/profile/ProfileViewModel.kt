@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.beok.noticeboard.data.FirebaseRepository
 import com.beok.noticeboard.profile.model.DayLife
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
@@ -16,7 +17,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor() : ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val repository: FirebaseRepository
+) : ViewModel() {
 
     private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
     private val storeRef = FirebaseStorage.getInstance().reference

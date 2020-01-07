@@ -8,7 +8,13 @@ import com.beok.noticeboard.utils.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 
-@Module(subcomponents = [LoginComponent::class, ProfileComponent::class, DayLifeComponent::class])
+@Module(
+    subcomponents = [
+        LoginComponent::class,
+        ProfileComponent::class,
+        DayLifeComponent::class
+    ]
+)
 abstract class AppSubComponent {
 
     @Binds
