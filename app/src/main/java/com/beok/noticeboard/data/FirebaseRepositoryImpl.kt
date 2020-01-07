@@ -27,4 +27,7 @@ class FirebaseRepositoryImpl @Inject constructor(
             }
             .addOnFailureListener { onFailure(it) }
     }
+
+    override fun getProfileName(): String =
+        service.firebaseAuth.currentUser?.displayName ?: "Anonymous"
 }

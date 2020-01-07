@@ -47,6 +47,9 @@ class ProfileViewModel @Inject constructor(
     private val _dayLife = MutableLiveData<List<DayLife>>()
     val dayLife: LiveData<List<DayLife>> get() = _dayLife
 
+    private val _errMsg = MutableLiveData<String>()
+    val errMsg: LiveData<String> get() = _errMsg
+
     private val dayLifeItem = mutableListOf<DayLife>()
 
     private var totalItemSize: Int = 0
@@ -63,16 +66,17 @@ class ProfileViewModel @Inject constructor(
 
     fun setupProfile() {
         showProgressbar()
-        profileStoreRef.downloadUrl
-            .addOnCompleteListener { task ->
+        showProfileName(repository.getProfileName())
+        repository.downloadProfileImage(
+            onComplete = {
                 hideProgressbar()
-                if (!task.isSuccessful) {
-                    showProfileImage(firebaseUser.photoUrl)
-                    return@addOnCompleteListener
-                }
-                showProfileImage(task.result)
+                showProfileImage(it)
+            },
+            onFailure = {
+                hideProgressbar()
+                _errMsg.value = it?.message ?: ""
             }
-        showProfileName()
+        )
     }
 
     fun refreshDayLife() {
@@ -112,8 +116,8 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun showProfileName() {
-        _profileName.value = firebaseUser.displayName
+    private fun showProfileName(profileName: String) {
+        _profileName.value = profileName
     }
 
     private fun uploadProfileImage(uri: Uri) {

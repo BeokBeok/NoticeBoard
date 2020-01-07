@@ -3,6 +3,7 @@ package com.beok.noticeboard.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -55,25 +56,22 @@ class ProfileActivity : AppCompatActivity() {
     private fun setupObserver() {
         val owner = this@ProfileActivity
         viewModel.run {
-            imageUri.observe(
-                owner,
-                Observer { imageUri ->
-                    BeokGlide.showImageForCenterCrop(binding.ivProfile, imageUri)
-                }
-            )
-            startActivityForResultEvent.observe(
-                owner,
-                Observer {
-                    it.getContentIfNotHandled()?.let { cmd ->
-                        if (cmd is ActivityCommand.StartActivityForResult) {
-                            startActivityForResult(cmd.intent, cmd.requestCode)
-                        }
+            imageUri.observe(owner, Observer { imageUri ->
+                BeokGlide.showImageForCenterCrop(binding.ivProfile, imageUri)
+            })
+            startActivityForResultEvent.observe(owner, Observer {
+                it.getContentIfNotHandled()?.let { cmd ->
+                    if (cmd is ActivityCommand.StartActivityForResult) {
+                        startActivityForResult(cmd.intent, cmd.requestCode)
                     }
                 }
-            )
+            })
+            errMsg.observe(owner, Observer { showToast(it) })
         }
-
     }
+
+    private fun showToast(msg: String?) =
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
     private fun setupBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
