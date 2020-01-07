@@ -47,9 +47,9 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
                     .addOnCompleteListener { task ->
                         hideProgressbar()
                         if (!task.isSuccessful) return@addOnCompleteListener
+                        updateDayLifeDatabase(currentTime, posts)
                     }
             }
-            updateDayLifeDatabase(currentTime, posts)
         } ?: hideProgressbar()
     }
 
