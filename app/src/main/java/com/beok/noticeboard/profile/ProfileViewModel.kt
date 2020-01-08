@@ -9,21 +9,11 @@ import com.beok.noticeboard.data.FirebaseRepository
 import com.beok.noticeboard.profile.model.DayLife
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val repository: FirebaseRepository
 ) : ViewModel() {
-
-    private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
-    private val storeRef = FirebaseStorage.getInstance().reference
-    private val profileStoreRef = storeRef
-        .child("profile")
-        .child("${firebaseUser.email}.jpg")
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -87,32 +77,16 @@ class ProfileViewModel @Inject constructor(
 
     private fun uploadProfileImage(uri: Uri) {
         showProgressbar()
-        profileStoreRef.putFile(uri)
-            .continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    hideProgressbar()
-                    error(task.exception ?: "")
-                }
-                profileStoreRef.downloadUrl
-            }
-            .addOnCompleteListener { task ->
+        repository.updateProfileImage(
+            uri,
+            onComplete = {
                 hideProgressbar()
-                if (!task.isSuccessful) return@addOnCompleteListener
-                updateProfileImage(task, uri)
-            }
-    }
-
-    private fun updateProfileImage(task: Task<Uri>, uri: Uri) {
-        showProgressbar()
-        val request = UserProfileChangeRequest.Builder()
-            .setPhotoUri(task.result)
-            .build()
-        firebaseUser.updateProfile(request)
-            .addOnCompleteListener { profileTask ->
-                hideProgressbar()
-                if (!profileTask.isSuccessful) return@addOnCompleteListener
                 showProfileImage(uri)
+            }, onFailure = {
+                hideProgressbar()
+                _errMsg.value = it?.message ?: ""
             }
+        )
     }
 
     private fun showProfileImage(uri: Uri?) {

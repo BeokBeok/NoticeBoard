@@ -13,4 +13,6 @@ interface FirebaseRepository {
         onComplete: (List<DayLife>?) -> Unit,
         onFailure: (Exception?) -> Unit
     )
+
+    fun updateProfileImage(uri: Uri, onComplete: (Boolean) -> Unit, onFailure: (Exception?) -> Unit)
 }
