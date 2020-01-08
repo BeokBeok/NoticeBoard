@@ -143,7 +143,7 @@ class FirebaseRepositoryImpl @Inject constructor(
                     DayLife(task.result, document.data["posts"].toString())
                 )
                 if (totalCnt == dayLifeContents.size) {
-                    onComplete(dayLifeContents)
+                    onComplete(dayLifeContents.sortedByDescending { it.imageUrl.toString() })
                 }
             }
             .addOnFailureListener { onFailure(it) }

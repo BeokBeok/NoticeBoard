@@ -63,7 +63,7 @@ class ProfileViewModel @Inject constructor(
         repository.requestDayLife(
             onComplete = {
                 hideProgressbar()
-                _dayLife.value = it?.sortedByDescending { it.imageUrl.toString() }
+                _dayLife.value = it
             }, onFailure = {
                 hideProgressbar()
                 _errMsg.value = it?.message ?: ""
