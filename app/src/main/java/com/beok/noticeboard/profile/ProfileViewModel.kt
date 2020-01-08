@@ -12,8 +12,6 @@ import com.beok.noticeboard.utils.Event
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.storage.FirebaseStorage
 import javax.inject.Inject
 
@@ -26,10 +24,6 @@ class ProfileViewModel @Inject constructor(
     private val profileStoreRef = storeRef
         .child("profile")
         .child("${firebaseUser.email}.jpg")
-    private val dayLifeStoreRef = storeRef
-        .child("daylife")
-    private val dayLifeFireStoreRef = FirebaseFirestore.getInstance()
-        .collection("daylife")
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -49,11 +43,6 @@ class ProfileViewModel @Inject constructor(
 
     private val _errMsg = MutableLiveData<String>()
     val errMsg: LiveData<String> get() = _errMsg
-
-    private val dayLifeItem = mutableListOf<DayLife>()
-
-    private var totalItemSize: Int = 0
-    private var currentItemCnt: Int = 0
 
     val imgUpload = fun(uri: Uri) {
         uploadProfileImage(uri)
@@ -81,39 +70,15 @@ class ProfileViewModel @Inject constructor(
 
     fun refreshDayLife() {
         showProgressbar()
-        dayLifeFireStoreRef.get()
-            .addOnSuccessListener { result ->
-                dayLifeItem.clear()
-                totalItemSize = result.count()
-                for (document in result) {
-                    takeDayLifeData(document)
-                }
+        repository.requestDayLife(
+            onComplete = {
                 hideProgressbar()
+                _dayLife.value = it?.sortedByDescending { it.imageUrl.toString() }
+            }, onFailure = {
+                hideProgressbar()
+                _errMsg.value = it?.message ?: ""
             }
-            .addOnFailureListener { hideProgressbar() }
-    }
-
-    private fun takeDayLifeData(document: QueryDocumentSnapshot) {
-        dayLifeStoreRef.child(document.id).child("0.jpg").downloadUrl
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful) return@addOnCompleteListener
-                dayLifeItem.add(
-                    DayLife(
-                        task.result,
-                        document.data["posts"].toString()
-                    )
-                )
-                currentItemCnt++
-                setDayLifeItem()
-            }
-    }
-
-    private fun setDayLifeItem() {
-        if (currentItemCnt == totalItemSize) {
-            _dayLife.value =
-                dayLifeItem.sortedByDescending { it.imageUrl.toString() }
-            currentItemCnt = 0
-        }
+        )
     }
 
     private fun showProfileName(profileName: String) {
