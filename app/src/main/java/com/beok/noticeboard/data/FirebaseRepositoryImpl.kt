@@ -2,7 +2,7 @@ package com.beok.noticeboard.data
 
 import android.net.Uri
 import com.beok.noticeboard.data.service.FirebaseService
-import com.beok.noticeboard.profile.model.DayLife
+import com.beok.noticeboard.model.DayLife
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -82,6 +82,46 @@ class FirebaseRepositoryImpl @Inject constructor(
                 }
                 updateFirebaseProfile(task, onFailure, onComplete)
             }
+    }
+
+    override fun postDayLife(
+        uriList: List<Uri>,
+        posts: String,
+        onComplete: (Boolean) -> Unit,
+        onFailure: (Exception?) -> Unit
+    ) {
+        val currentTime = System.currentTimeMillis().toString()
+        uriList.forEachIndexed { index, uri ->
+            val fileName = "$index.jpg"
+            val targetStorageRef = service.firebaseStorage.reference
+                .child("daylife")
+                .child(currentTime)
+                .child(fileName)
+            targetStorageRef.putFile(uri)
+                .continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        onFailure(task.exception)
+                        return@continueWithTask null
+                    }
+                    targetStorageRef.downloadUrl
+                }
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        onFailure(task.exception)
+                        return@addOnCompleteListener
+                    }
+                    val user = hashMapOf(
+                        "imgCnt" to uriList.size,
+                        "posts" to posts
+                    )
+                    service.firebaseFirestore
+                        .collection("daylife")
+                        .document(currentTime)
+                        .set(user)
+                        .addOnSuccessListener { onComplete(true) }
+                        .addOnCanceledListener { onComplete(false) }
+                }
+        }
     }
 
     private fun downloadDayLifeImg(

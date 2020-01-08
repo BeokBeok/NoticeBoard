@@ -1,7 +1,7 @@
 package com.beok.noticeboard.data
 
 import android.net.Uri
-import com.beok.noticeboard.profile.model.DayLife
+import com.beok.noticeboard.model.DayLife
 
 interface FirebaseRepository {
 
@@ -15,4 +15,11 @@ interface FirebaseRepository {
     )
 
     fun updateProfileImage(uri: Uri, onComplete: (Boolean) -> Unit, onFailure: (Exception?) -> Unit)
+
+    fun postDayLife(
+        uriList: List<Uri>,
+        posts: String,
+        onComplete: (Boolean) -> Unit,
+        onFailure: (Exception?) -> Unit
+    )
 }

@@ -1,20 +1,15 @@
 package com.beok.noticeboard.dailylife
 
 import android.net.Uri
-import android.util.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
+import com.beok.noticeboard.data.FirebaseRepository
 import javax.inject.Inject
 
-class DayLifeViewModel @Inject constructor() : ViewModel() {
-
-    private val storageRef = FirebaseStorage.getInstance().reference
-        .child("daylife")
-    private val fireStoreRef = FirebaseFirestore.getInstance()
-        .collection("daylife")
+class DayLifeViewModel @Inject constructor(
+    private val repository: FirebaseRepository
+) : ViewModel() {
 
     private val _imageUriList = MutableLiveData<List<Uri>>()
     val imageUriList: LiveData<List<Uri>> get() = _imageUriList
@@ -30,26 +25,17 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
     }
 
     fun postDayLife(posts: String) {
-        val currentTime = System.currentTimeMillis().toString()
+        showProgressbar()
         _imageUriList.value?.let { uriList ->
-            uriList.forEachIndexed { index, uri ->
-                val fileName = "$index.jpg"
-                val targetRef = storageRef.child(currentTime).child(fileName)
-                targetRef.putFile(uri)
-                    .continueWith { task ->
-                        showProgressbar()
-                        if (!task.isSuccessful) {
-                            hideProgressbar()
-                            error(task.exception ?: "")
-                        }
-                        targetRef.downloadUrl
-                    }
-                    .addOnCompleteListener { task ->
-                        hideProgressbar()
-                        if (!task.isSuccessful) return@addOnCompleteListener
-                        updateDayLifeDatabase(currentTime, posts)
-                    }
-            }
+            repository.postDayLife(
+                uriList, posts,
+                onComplete = { isSuccess ->
+                    if (isSuccess) doPost()
+                    else doCancel()
+                }, onFailure = {
+                    doCancel()
+                }
+            )
         } ?: hideProgressbar()
     }
 
@@ -73,18 +59,6 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
 
     private fun setImageUri(uriList: List<Uri>) {
         _imageUriList.value = uriList
-    }
-
-    private fun updateDayLifeDatabase(currentTime: String, posts: String) {
-        showProgressbar()
-        val user = ArrayMap<String, Any>()
-        user["imgCnt"] = _imageUriList.value?.size ?: 0
-        user["posts"] = posts
-
-        fireStoreRef.document(currentTime)
-            .set(user)
-            .addOnSuccessListener { doPost() }
-            .addOnCanceledListener { doCancel() }
     }
 
     companion object {

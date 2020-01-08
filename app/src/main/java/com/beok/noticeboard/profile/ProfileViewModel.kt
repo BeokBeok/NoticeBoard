@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.beok.noticeboard.data.FirebaseRepository
-import com.beok.noticeboard.profile.model.DayLife
+import com.beok.noticeboard.model.DayLife
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
 import javax.inject.Inject
