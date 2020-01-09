@@ -17,5 +17,5 @@ fun ImageView.showMultiImagePicker(imgListUpload: (uriList: List<Uri>) -> Unit) 
 @BindingAdapter("srcWithGlide")
 fun ImageView.srcWithGlide(uri: Uri?) {
     if (uri == null) return
-    BeokGlide.showImage(this, uri)
+    BeokGlide.showImageForCenterCrop(this, uri)
 }

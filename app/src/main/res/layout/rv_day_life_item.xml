@@ -20,7 +20,7 @@
         <ImageView
             srcWithGlide="@{daylife.imageUrl}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:adjustViewBounds="true"
             android:contentDescription="@null" />
 
