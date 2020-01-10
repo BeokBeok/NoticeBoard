@@ -5,7 +5,6 @@ import com.beok.noticeboard.data.service.FirebaseService
 import com.beok.noticeboard.model.DayLife
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
@@ -43,11 +42,11 @@ class FirebaseRepositoryImpl @Inject constructor(
         val dayLifeContents = mutableListOf<DayLife>()
 
         dayLifeFirestoreRef.get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    downloadDayLifeImg(
-                        document,
-                        result.size(),
+            .addOnSuccessListener { wholeDayLifeList ->
+                for (dayLife in wholeDayLifeList) {
+                    loadDayLife(
+                        dayLife.toObject(DayLife::class.java),
+                        wholeDayLifeList.size(),
                         dayLifeContents,
                         onComplete,
                         onFailure
@@ -122,19 +121,18 @@ class FirebaseRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun downloadDayLifeImg(
-        document: QueryDocumentSnapshot,
-        postingWholeSize: Int, // posting whole cnt
+    private fun loadDayLife(
+        dayLife: DayLife,
+        postedWholeSize: Int,
         dayLifeContents: MutableList<DayLife>,
         onComplete: (List<DayLife>?) -> Unit,
         onFailure: (Exception?) -> Unit
     ) {
         val dayLifeStorageRef = service.firebaseStorage.reference.child("daylife")
         val imgUriList = mutableListOf<Uri?>()
-        val dayLife = document.toObject(DayLife::class.java)
 
         for (i in 0 until dayLife.imgCnt) {
-            dayLifeStorageRef.child(document.id).child("$i.jpg").downloadUrl
+            dayLifeStorageRef.child(dayLife.date).child("$i.jpg").downloadUrl
                 .addOnCompleteListener { task ->
                     if (!task.isSuccessful) {
                         onFailure(task.exception)
@@ -146,12 +144,12 @@ class FirebaseRepositoryImpl @Inject constructor(
                     }
                     dayLifeContents.add(
                         DayLife(
-                            date = document.id,
+                            date = dayLife.date,
                             imageUriList = imgUriList,
                             posts = dayLife.posts
                         )
                     )
-                    if (postingWholeSize == dayLifeContents.size) {
+                    if (postedWholeSize == dayLifeContents.size) {
                         onComplete(dayLifeContents.sortedByDescending { it.date })
                     }
                 }
