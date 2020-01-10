@@ -111,10 +111,7 @@ class FirebaseRepositoryImpl @Inject constructor(
                         return@addOnCompleteListener
                     }
                     if (index + 1 != uriList.size) return@addOnCompleteListener
-                    val dayLife = hashMapOf(
-                        "imgCnt" to uriList.size,
-                        "posts" to posts
-                    )
+                    val dayLife = DayLife(date = currentTime, imgCnt = uriList.size, posts = posts)
                     service.firebaseFirestore
                         .collection("daylife")
                         .document(currentTime)
@@ -127,27 +124,39 @@ class FirebaseRepositoryImpl @Inject constructor(
 
     private fun downloadDayLifeImg(
         document: QueryDocumentSnapshot,
-        totalCnt: Int,
+        postingWholeSize: Int, // posting whole cnt
         dayLifeContents: MutableList<DayLife>,
         onComplete: (List<DayLife>?) -> Unit,
         onFailure: (Exception?) -> Unit
     ) {
         val dayLifeStorageRef = service.firebaseStorage.reference.child("daylife")
+        val imgUriList = mutableListOf<Uri?>()
+        val dayLife = document.toObject(DayLife::class.java)
 
-        dayLifeStorageRef.child(document.id).child("0.jpg").downloadUrl
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    onFailure(task.exception)
-                    return@addOnCompleteListener
+        for (i in 0 until dayLife.imgCnt) {
+            dayLifeStorageRef.child(document.id).child("$i.jpg").downloadUrl
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        onFailure(task.exception)
+                        return@addOnCompleteListener
+                    }
+                    if (i != dayLife.imgCnt - 1) {
+                        imgUriList.add(task.result)
+                        return@addOnCompleteListener
+                    }
+                    dayLifeContents.add(
+                        DayLife(
+                            date = document.id,
+                            imageUriList = imgUriList,
+                            posts = dayLife.posts
+                        )
+                    )
+                    if (postingWholeSize == dayLifeContents.size) {
+                        onComplete(dayLifeContents.sortedByDescending { it.date })
+                    }
                 }
-                dayLifeContents.add(
-                    DayLife(task.result, document.data["posts"].toString())
-                )
-                if (totalCnt == dayLifeContents.size) {
-                    onComplete(dayLifeContents.sortedByDescending { it.imageUrl.toString() })
-                }
-            }
-            .addOnFailureListener { onFailure(it) }
+                .addOnFailureListener { onFailure(it) }
+        }
     }
 
     private fun updateFirebaseProfile(

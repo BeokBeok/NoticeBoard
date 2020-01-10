@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 
 object BeokGlide {
 
-    fun showImageForCenterCrop(iv: ImageView, uri: Uri) {
+    fun showImageForCenterCrop(iv: ImageView, uri: Uri?) {
         Glide.with(iv.context)
             .load(uri)
             .placeholder(android.R.mipmap.sym_def_app_icon)
