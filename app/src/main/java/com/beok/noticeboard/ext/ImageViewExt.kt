@@ -2,6 +2,7 @@ package com.beok.noticeboard.ext
 
 import android.net.Uri
 import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.beok.noticeboard.wrapper.BeokGlide
 import com.beok.noticeboard.wrapper.BeokImagePicker
@@ -15,6 +16,6 @@ fun ImageView.showMultiImagePicker(imgListUpload: (uriList: List<Uri>) -> Unit) 
     setOnClickListener { BeokImagePicker.showMultiImagePicker(this.context, imgListUpload) }
 
 @BindingAdapter("srcWithGlide")
-fun ImageView.srcWithGlide(uriList: List<Uri?>) {
-    BeokGlide.showImageForCenterCrop(this, uriList[0])
+fun ImageView.srcWithGlide(urlList: List<String>) {
+    BeokGlide.showImageForCenterCrop(this, urlList[0].toUri())
 }

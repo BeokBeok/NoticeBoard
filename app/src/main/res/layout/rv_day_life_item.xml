@@ -17,7 +17,7 @@
 
         <ImageView
             android:id="@+id/iv_daylife"
-            srcWithGlide="@{daylife.imageUriList}"
+            srcWithGlide="@{daylife.imageUrls}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"

@@ -44,13 +44,11 @@ class FirebaseRepositoryImpl @Inject constructor(
         dayLifeFirestoreRef.get()
             .addOnSuccessListener { wholeDayLifeList ->
                 for (dayLife in wholeDayLifeList) {
-                    loadDayLife(
-                        dayLife.toObject(DayLife::class.java),
-                        wholeDayLifeList.size(),
-                        dayLifeContents,
-                        onComplete,
-                        onFailure
-                    )
+                    dayLifeContents.add(dayLife.toObject(DayLife::class.java))
+
+                    if (dayLifeContents.size == wholeDayLifeList.size()) {
+                        onComplete(dayLifeContents.sortedByDescending { it.date })
+                    }
                 }
             }
             .addOnFailureListener { onFailure(it) }
@@ -90,6 +88,8 @@ class FirebaseRepositoryImpl @Inject constructor(
         onFailure: (Exception?) -> Unit
     ) {
         val currentTime = System.currentTimeMillis().toString()
+        val urlList = mutableListOf<String>()
+
         uriList.forEachIndexed { index, uri ->
             val targetStorageRef = service.firebaseStorage.reference
                 .child("daylife")
@@ -109,8 +109,12 @@ class FirebaseRepositoryImpl @Inject constructor(
                         onFailure(task.exception)
                         return@addOnCompleteListener
                     }
-                    if (index + 1 != uriList.size) return@addOnCompleteListener
-                    val dayLife = DayLife(date = currentTime, imgCnt = uriList.size, posts = posts)
+                    if (index + 1 <= uriList.size - 1) {
+                        urlList.add(task.result?.toString() ?: "")
+                        return@addOnCompleteListener
+                    }
+                    urlList.add(task.result?.toString() ?: "")
+                    val dayLife = DayLife(date = currentTime, imageUrls = urlList, posts = posts)
                     service.firebaseFirestore
                         .collection("daylife")
                         .document(currentTime)
@@ -118,42 +122,6 @@ class FirebaseRepositoryImpl @Inject constructor(
                         .addOnSuccessListener { onComplete(true) }
                         .addOnCanceledListener { onComplete(false) }
                 }
-        }
-    }
-
-    private fun loadDayLife(
-        dayLife: DayLife,
-        postedWholeSize: Int,
-        dayLifeContents: MutableList<DayLife>,
-        onComplete: (List<DayLife>?) -> Unit,
-        onFailure: (Exception?) -> Unit
-    ) {
-        val dayLifeStorageRef = service.firebaseStorage.reference.child("daylife")
-        val imgUriList = mutableListOf<Uri?>()
-
-        for (i in 0 until dayLife.imgCnt) {
-            dayLifeStorageRef.child(dayLife.date).child("$i.jpg").downloadUrl
-                .addOnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        onFailure(task.exception)
-                        return@addOnCompleteListener
-                    }
-                    if (i != dayLife.imgCnt - 1) {
-                        imgUriList.add(task.result)
-                        return@addOnCompleteListener
-                    }
-                    dayLifeContents.add(
-                        DayLife(
-                            date = dayLife.date,
-                            imageUriList = imgUriList,
-                            posts = dayLife.posts
-                        )
-                    )
-                    if (postedWholeSize == dayLifeContents.size) {
-                        onComplete(dayLifeContents.sortedByDescending { it.date })
-                    }
-                }
-                .addOnFailureListener { onFailure(it) }
         }
     }
 
