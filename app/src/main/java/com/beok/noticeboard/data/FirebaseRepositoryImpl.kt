@@ -92,11 +92,11 @@ class FirebaseRepositoryImpl @Inject constructor(
     ) {
         val currentTime = System.currentTimeMillis().toString()
         uriList.forEachIndexed { index, uri ->
-            val fileName = "$index.jpg"
             val targetStorageRef = service.firebaseStorage.reference
                 .child("daylife")
                 .child(currentTime)
-                .child(fileName)
+                .child("$index.jpg")
+
             targetStorageRef.putFile(uri)
                 .continueWithTask { task ->
                     if (!task.isSuccessful) {
@@ -110,14 +110,15 @@ class FirebaseRepositoryImpl @Inject constructor(
                         onFailure(task.exception)
                         return@addOnCompleteListener
                     }
-                    val user = hashMapOf(
+                    if (index + 1 != uriList.size) return@addOnCompleteListener
+                    val dayLife = hashMapOf(
                         "imgCnt" to uriList.size,
                         "posts" to posts
                     )
                     service.firebaseFirestore
                         .collection("daylife")
                         .document(currentTime)
-                        .set(user)
+                        .set(dayLife)
                         .addOnSuccessListener { onComplete(true) }
                         .addOnCanceledListener { onComplete(false) }
                 }
