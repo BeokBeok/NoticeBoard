@@ -5,6 +5,7 @@ import com.beok.noticeboard.data.service.FirebaseService
 import com.beok.noticeboard.model.DayLife
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
@@ -41,13 +42,13 @@ class FirebaseRepositoryImpl @Inject constructor(
         val dayLifeFirestoreRef = service.firebaseFirestore.collection("daylife")
         val dayLifeContents = mutableListOf<DayLife>()
 
-        dayLifeFirestoreRef.get()
+        dayLifeFirestoreRef.orderBy("date", Query.Direction.DESCENDING).get()
             .addOnSuccessListener { wholeDayLifeList ->
                 for (dayLife in wholeDayLifeList) {
                     dayLifeContents.add(dayLife.toObject(DayLife::class.java))
 
                     if (dayLifeContents.size == wholeDayLifeList.size()) {
-                        onComplete(dayLifeContents.sortedByDescending { it.date })
+                        onComplete(dayLifeContents)
                     }
                 }
             }
