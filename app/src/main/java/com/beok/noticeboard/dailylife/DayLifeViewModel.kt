@@ -1,27 +1,18 @@
 package com.beok.noticeboard.dailylife
 
 import android.net.Uri
-import android.util.ArrayMap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
+import com.beok.noticeboard.data.FirebaseRepository
 import javax.inject.Inject
 
-class DayLifeViewModel @Inject constructor() : ViewModel() {
+class DayLifeViewModel @Inject constructor(
+    private val repository: FirebaseRepository
+) : ViewModel() {
 
-    private val firebaseUser = FirebaseAuth.getInstance().currentUser ?: error("User invalidate")
-    private val spaceRef =
-        FirebaseStorage.getInstance().reference
-            .child("${firebaseUser.email}")
-            .child("daylife")
-    private val collectionRef = FirebaseFirestore.getInstance()
-        .collection("daylife")
-
-    private val _imageUri = MutableLiveData<Uri>()
-    val imageUri: LiveData<Uri> get() = _imageUri
+    private val _imageUriList = MutableLiveData<List<Uri>>()
+    val imageUriList: LiveData<List<Uri>> get() = _imageUriList
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -29,13 +20,23 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
     private val _onActivityResultConst = MutableLiveData<Int>()
     val onActivityResultConst: LiveData<Int> get() = _onActivityResultConst
 
-    val imageUpload = fun(uri: Uri) {
-        setImageUri(uri)
+    val imageListUpload = fun(uriList: List<Uri>) {
+        setImageUri(uriList)
     }
 
     fun postDayLife(posts: String) {
         showProgressbar()
-        uploadDayLifeImage(posts)
+        _imageUriList.value?.let { uriList ->
+            repository.postDayLife(
+                uriList, posts,
+                onComplete = { isSuccess ->
+                    if (isSuccess) doPost()
+                    else doCancel()
+                }, onFailure = {
+                    doCancel()
+                }
+            )
+        } ?: hideProgressbar()
     }
 
     fun doCancel() {
@@ -56,39 +57,8 @@ class DayLifeViewModel @Inject constructor() : ViewModel() {
         _isLoading.value = false
     }
 
-    private fun setImageUri(uri: Uri) {
-        _imageUri.value = uri
-    }
-
-    private fun uploadDayLifeImage(posts: String) {
-        val uploadDate = System.currentTimeMillis().toString()
-        val uploadSpaceRef = spaceRef.child("$uploadDate.jpg")
-        _imageUri.value?.let { uri ->
-            uploadSpaceRef.putFile(uri)
-                .continueWith { task ->
-                    if (!task.isSuccessful) {
-                        hideProgressbar()
-                        error(task.exception ?: "")
-                    }
-                    uploadSpaceRef.downloadUrl
-                }
-                .addOnCompleteListener { task ->
-                    hideProgressbar()
-                    if (!task.isSuccessful) return@addOnCompleteListener
-                    uploadPostingData(uploadDate, posts)
-                }
-        } ?: hideProgressbar()
-    }
-
-    private fun uploadPostingData(uploadDate: String, posts: String) {
-        showProgressbar()
-        val user = ArrayMap<String, String>()
-        user["posts"] = posts
-
-        collectionRef.document(uploadDate)
-            .set(user)
-            .addOnSuccessListener { doPost() }
-            .addOnCanceledListener { doCancel() }
+    private fun setImageUri(uriList: List<Uri>) {
+        _imageUriList.value = uriList
     }
 
     companion object {

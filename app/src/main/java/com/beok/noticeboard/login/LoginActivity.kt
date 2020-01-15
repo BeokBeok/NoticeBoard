@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.databinding.ActivityLoginBinding
-import com.beok.noticeboard.profile.ProfileActivity
+import com.beok.noticeboard.main.MainActivity
 import com.beok.noticeboard.utils.ActivityCommand
 import javax.inject.Inject
 
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
             this,
             Observer { isSuccessLogin ->
                 if (isSuccessLogin) {
-                    ProfileActivity.startActivity(this)
+                    MainActivity.startActivity(this)
                 } else {
                     showToast(getString(R.string.msg_login_fail))
                 }
@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goActivityIfLoggedIn() {
         if (viewModel.existCurrentUser()) {
-            ProfileActivity.startActivity(this)
+            MainActivity.startActivity(this)
         }
     }
 
