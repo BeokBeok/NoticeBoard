@@ -5,16 +5,18 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
-            type="com.beok.noticeboard.profile.ProfileViewModel" />
+            type="com.beok.noticeboard.main.MainViewModel" />
 
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".profile.ProfileActivity">
+        tools:context=".main.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_content"
@@ -78,7 +80,7 @@
                 android:id="@+id/pb_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:visibility="@{vm.isLoading ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
