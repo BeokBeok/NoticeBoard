@@ -1,4 +1,4 @@
-package com.beok.noticeboard.profile
+package com.beok.noticeboard.main
 
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +11,7 @@ import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val repository: FirebaseRepository
 ) : ViewModel() {
 

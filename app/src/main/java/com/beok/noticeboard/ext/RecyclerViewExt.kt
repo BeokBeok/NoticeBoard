@@ -2,13 +2,13 @@ package com.beok.noticeboard.ext
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.beok.noticeboard.main.MainAdapter
+import com.beok.noticeboard.main.MainItemAdapter
 import com.beok.noticeboard.model.DayLife
-import com.beok.noticeboard.profile.ProfileAdapter
-import com.beok.noticeboard.profile.ProfileItemAdapter
 
 @BindingAdapter("replaceItem")
 fun RecyclerView.replaceItem(items: List<DayLife>?) {
-    (this.adapter as? ProfileAdapter)?.run {
+    (this.adapter as? MainAdapter)?.run {
         replaceItem(items)
         notifyDataSetChanged()
     }
@@ -16,7 +16,7 @@ fun RecyclerView.replaceItem(items: List<DayLife>?) {
 
 @BindingAdapter("replaceImageItem")
 fun RecyclerView.replaceImageItem(items: List<String>?) {
-    (this.adapter as? ProfileItemAdapter)?.run {
+    (this.adapter as? MainItemAdapter)?.run {
         replaceItem(items)
         notifyDataSetChanged()
     }

@@ -9,14 +9,14 @@
 
         <variable
             name="vm"
-            type="com.beok.noticeboard.profile.ProfileViewModel" />
+            type="com.beok.noticeboard.main.MainViewModel" />
 
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".profile.ProfileActivity">
+        tools:context=".main.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_content"

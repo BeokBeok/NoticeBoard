@@ -1,4 +1,4 @@
-package com.beok.noticeboard.profile
+package com.beok.noticeboard.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,13 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.beok.noticeboard.BR
 import com.beok.noticeboard.R
-import com.beok.noticeboard.databinding.RvDayLifeImgItemBinding
+import com.beok.noticeboard.databinding.RvMainDaylifeItemBinding
 
-class ProfileItemAdapter(
+class MainItemAdapter(
     @LayoutRes
-    private val layoutRes: Int = R.layout.rv_day_life_img_item,
+    private val layoutRes: Int = R.layout.rv_main_daylife_item,
     private val bindingId: Int? = BR.imgUrl
-) : RecyclerView.Adapter<ProfileItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MainItemAdapter.ViewHolder>() {
 
     private val items = mutableListOf<String>()
 
@@ -38,7 +38,7 @@ class ProfileItemAdapter(
             .inflate(layoutRes, parent, false)
     ) {
 
-        private val binding: RvDayLifeImgItemBinding = DataBindingUtil.bind(itemView)!!
+        private val binding: RvMainDaylifeItemBinding = DataBindingUtil.bind(itemView)!!
 
         fun bindViewHolder(item: String?) {
             if (item == null) return

@@ -1,4 +1,4 @@
-package com.beok.noticeboard.profile
+package com.beok.noticeboard.main
 
 import android.content.Context
 import android.content.Intent
@@ -10,21 +10,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
-import com.beok.noticeboard.databinding.ActivityProfileBinding
+import com.beok.noticeboard.databinding.ActivityMainBinding
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.wrapper.BeokGlide
 import javax.inject.Inject
 
-class ProfileActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[ProfileViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
     }
 
-    private lateinit var binding: ActivityProfileBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as MyApplication).appComponent.profileComponent()
@@ -45,7 +45,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun setupUi() {
         binding.rvContent.run {
             setHasFixedSize(true)
-            adapter = ProfileAdapter()
+            adapter = MainAdapter()
         }
         viewModel.run {
             setupProfile()
@@ -54,7 +54,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setupObserver() {
-        val owner = this@ProfileActivity
+        val owner = this@MainActivity
         viewModel.run {
             imageUri.observe(owner, Observer { imageUri ->
                 BeokGlide.showImageForCenterCrop(binding.ivProfile, imageUri)
@@ -74,14 +74,14 @@ class ProfileActivity : AppCompatActivity() {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
     private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.vm = viewModel
     }
 
     companion object {
         fun startActivity(context: Context?) {
-            context?.startActivity(Intent(context, ProfileActivity::class.java))
+            context?.startActivity(Intent(context, MainActivity::class.java))
         }
     }
 }
