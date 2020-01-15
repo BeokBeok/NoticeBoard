@@ -7,16 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.beok.noticeboard.BR
 import com.beok.noticeboard.R
-import com.beok.noticeboard.databinding.RvDayLifeItemBinding
-import com.beok.noticeboard.model.DayLife
+import com.beok.noticeboard.databinding.RvDayLifeImgItemBinding
 
-class ProfileAdapter(
+class ProfileItemAdapter(
     @LayoutRes
-    private val layoutRes: Int = R.layout.rv_day_life_item,
-    private val bindingId: Int? = BR.daylife
-) : RecyclerView.Adapter<ProfileAdapter.ViewHolder>() {
+    private val layoutRes: Int = R.layout.rv_day_life_img_item,
+    private val bindingId: Int? = BR.imgUrl
+) : RecyclerView.Adapter<ProfileItemAdapter.ViewHolder>() {
 
-    private val items = mutableListOf<DayLife>()
+    private val items = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(parent)
@@ -26,7 +25,7 @@ class ProfileAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bindViewHolder(items[position])
 
-    fun replaceItem(item: List<DayLife>?) {
+    fun replaceItem(item: List<String>?) {
         if (item == null) return
         items.run {
             clear()
@@ -38,17 +37,14 @@ class ProfileAdapter(
         LayoutInflater.from(parent.context)
             .inflate(layoutRes, parent, false)
     ) {
-        private val binding: RvDayLifeItemBinding = DataBindingUtil.bind(itemView)!!
 
-        fun bindViewHolder(item: DayLife?) {
-            if (bindingId == null) return
+        private val binding: RvDayLifeImgItemBinding = DataBindingUtil.bind(itemView)!!
+
+        fun bindViewHolder(item: String?) {
             if (item == null) return
+            if (bindingId == null) return
 
-            binding.run {
-                setVariable(bindingId, item)
-                rvDaylife.adapter = ProfileItemAdapter()
-            }
-
+            binding.run { setVariable(bindingId, item) }
         }
     }
 }

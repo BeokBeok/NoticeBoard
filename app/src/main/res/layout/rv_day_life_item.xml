@@ -15,13 +15,13 @@
         android:layout_margin="4dp"
         android:background="@android:color/background_light">
 
-        <ImageView
-            android:id="@+id/iv_daylife"
-            srcWithGlide="@{daylife.imageUrls}"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_daylife"
+            replaceImageItem="@{daylife.imageUrls}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@null"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintDimensionRatio="H, 16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_daylife" />
+            app:layout_constraintTop_toBottomOf="@id/rv_daylife" />
 
         <View
             android:layout_width="0dp"
