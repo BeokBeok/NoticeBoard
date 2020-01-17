@@ -3,7 +3,7 @@ package com.beok.noticeboard.login
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.beok.noticeboard.common.BaseViewModel
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,7 +15,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(private val googleSignInClient: GoogleSignInClient) :
-    ViewModel() {
+    BaseViewModel() {
 
     private val _startActivityForResultEvent = MutableLiveData<Event<ActivityCommand>>()
     val startActivityForResultEvent: LiveData<Event<ActivityCommand>>

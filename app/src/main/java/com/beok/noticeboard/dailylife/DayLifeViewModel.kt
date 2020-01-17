@@ -3,13 +3,13 @@ package com.beok.noticeboard.dailylife
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.beok.noticeboard.common.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
 import javax.inject.Inject
 
 class DayLifeViewModel @Inject constructor(
     private val repository: FirebaseRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _imageUriList = MutableLiveData<List<Uri>>()
     val imageUriList: LiveData<List<Uri>> get() = _imageUriList

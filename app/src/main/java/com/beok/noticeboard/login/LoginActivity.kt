@@ -2,38 +2,66 @@ package com.beok.noticeboard.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
+import com.beok.noticeboard.common.BaseActivity
 import com.beok.noticeboard.databinding.ActivityLoginBinding
 import com.beok.noticeboard.main.MainActivity
 import com.beok.noticeboard.utils.ActivityCommand
-import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
     }
 
-    private lateinit var binding: ActivityLoginBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun setupInjection() =
         (application as MyApplication).appComponent.loginComponent()
             .create(this)
             .inject(this)
+
+    override fun setupViewModel() {
+        binding.viewModel = viewModel
+    }
+
+    override fun setupObserver() {
+        val owner = this@LoginActivity
+        viewModel.run {
+            startActivityForResultEvent.observe(
+                owner,
+                Observer { event ->
+                    event.getContentIfNotHandled()?.let { cmd ->
+                        if (cmd is ActivityCommand.StartActivityForResult) {
+                            startActivityForResult(cmd.intent, cmd.requestCode)
+                        }
+                    }
+                }
+            )
+            isSuccessLogin.observe(
+                owner,
+                Observer { isSuccessLogin ->
+                    if (isSuccessLogin) {
+                        MainActivity.startActivity(owner)
+                    } else {
+                        showToast(getString(R.string.msg_login_fail))
+                    }
+                }
+            )
+            errMsg.observe(
+                owner,
+                Observer {
+                    showToast(it)
+                }
+            )
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupDataBinding()
         goActivityIfLoggedIn()
-        setupObserver()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -43,47 +71,9 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun setupDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-    }
-
-    private fun setupObserver() {
-        viewModel.startActivityForResultEvent.observe(
-            this,
-            Observer { event ->
-                event.getContentIfNotHandled()?.let { cmd ->
-                    if (cmd is ActivityCommand.StartActivityForResult) {
-                        startActivityForResult(cmd.intent, cmd.requestCode)
-                    }
-                }
-            }
-        )
-        viewModel.isSuccessLogin.observe(
-            this,
-            Observer { isSuccessLogin ->
-                if (isSuccessLogin) {
-                    MainActivity.startActivity(this)
-                } else {
-                    showToast(getString(R.string.msg_login_fail))
-                }
-            }
-        )
-        viewModel.errMsg.observe(
-            this,
-            Observer {
-                showToast(it)
-            }
-        )
-    }
-
     private fun goActivityIfLoggedIn() {
         if (viewModel.existCurrentUser()) {
             MainActivity.startActivity(this)
         }
     }
-
-    private fun showToast(msg: String) =
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }

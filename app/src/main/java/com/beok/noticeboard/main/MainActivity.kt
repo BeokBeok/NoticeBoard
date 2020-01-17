@@ -3,37 +3,50 @@ package com.beok.noticeboard.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
+import com.beok.noticeboard.common.BaseActivity
 import com.beok.noticeboard.databinding.ActivityMainBinding
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.wrapper.BeokGlide
-import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
     }
 
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun setupInjection() =
         (application as MyApplication).appComponent.profileComponent()
             .create()
             .inject(this)
+
+    override fun setupViewModel() {
+        binding.vm = viewModel
+    }
+
+    override fun setupObserver() {
+        val owner = this@MainActivity
+        viewModel.run {
+            imageUri.observe(owner, Observer { imageUri ->
+                BeokGlide.showImageForCenterCrop(binding.ivProfile, imageUri)
+            })
+            startActivityForResultEvent.observe(owner, Observer {
+                it.getContentIfNotHandled()?.let { cmd ->
+                    if (cmd is ActivityCommand.StartActivityForResult) {
+                        startActivityForResult(cmd.intent, cmd.requestCode)
+                    }
+                }
+            })
+            errMsg.observe(owner, Observer { showToast(it) })
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupBinding()
         setupUi()
-        setupObserver()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -51,32 +64,6 @@ class MainActivity : AppCompatActivity() {
             setupProfile()
             refreshDayLife()
         }
-    }
-
-    private fun setupObserver() {
-        val owner = this@MainActivity
-        viewModel.run {
-            imageUri.observe(owner, Observer { imageUri ->
-                BeokGlide.showImageForCenterCrop(binding.ivProfile, imageUri)
-            })
-            startActivityForResultEvent.observe(owner, Observer {
-                it.getContentIfNotHandled()?.let { cmd ->
-                    if (cmd is ActivityCommand.StartActivityForResult) {
-                        startActivityForResult(cmd.intent, cmd.requestCode)
-                    }
-                }
-            })
-            errMsg.observe(owner, Observer { showToast(it) })
-        }
-    }
-
-    private fun showToast(msg: String?) =
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-
-    private fun setupBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.lifecycleOwner = this
-        binding.vm = viewModel
     }
 
     companion object {
