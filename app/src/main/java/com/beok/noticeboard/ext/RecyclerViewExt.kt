@@ -2,7 +2,7 @@ package com.beok.noticeboard.ext
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.beok.noticeboard.common.BaseAdapter
+import com.beok.noticeboard.base.BaseAdapter
 
 @BindingAdapter("replaceItem")
 fun RecyclerView.replaceItem(items: List<Any>?) {

@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.beok.noticeboard.BR
 import com.beok.noticeboard.R
-import com.beok.noticeboard.common.BaseAdapter
-import com.beok.noticeboard.common.BaseViewHolder
+import com.beok.noticeboard.base.BaseAdapter
+import com.beok.noticeboard.base.BaseViewHolder
 import com.beok.noticeboard.databinding.RvMainDaylifeItemBinding
 import com.beok.noticeboard.databinding.RvMainItemBinding
 import com.beok.noticeboard.model.DayLife

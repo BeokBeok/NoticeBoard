@@ -1,4 +1,4 @@
-package com.beok.noticeboard.common
+package com.beok.noticeboard.base
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes

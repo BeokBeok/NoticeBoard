@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
-import com.beok.noticeboard.common.BaseActivity
+import com.beok.noticeboard.base.BaseActivity
 import com.beok.noticeboard.databinding.ActivityLoginBinding
 import com.beok.noticeboard.main.MainActivity
 import com.beok.noticeboard.utils.ActivityCommand

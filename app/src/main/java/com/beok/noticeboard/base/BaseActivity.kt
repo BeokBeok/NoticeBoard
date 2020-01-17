@@ -1,4 +1,4 @@
-package com.beok.noticeboard.common
+package com.beok.noticeboard.base
 
 import android.os.Bundle
 import android.widget.Toast

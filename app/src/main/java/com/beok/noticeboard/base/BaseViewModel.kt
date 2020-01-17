@@ -1,4 +1,4 @@
-package com.beok.noticeboard.common
+package com.beok.noticeboard.base
 
 import androidx.lifecycle.ViewModel
 

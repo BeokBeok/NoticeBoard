@@ -3,7 +3,7 @@ package com.beok.noticeboard.login
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.beok.noticeboard.common.BaseViewModel
+import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
 import com.google.android.gms.auth.api.signin.GoogleSignIn

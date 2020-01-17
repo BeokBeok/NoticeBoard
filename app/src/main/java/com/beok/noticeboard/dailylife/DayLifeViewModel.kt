@@ -3,7 +3,7 @@ package com.beok.noticeboard.dailylife
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.beok.noticeboard.common.BaseViewModel
+import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
 import javax.inject.Inject
 

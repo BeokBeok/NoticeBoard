@@ -4,7 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.beok.noticeboard.common.BaseViewModel
+import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
 import com.beok.noticeboard.model.DayLife
 import com.beok.noticeboard.utils.ActivityCommand
