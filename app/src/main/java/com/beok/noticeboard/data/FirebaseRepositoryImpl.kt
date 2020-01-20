@@ -1,9 +1,11 @@
 package com.beok.noticeboard.data
 
 import android.net.Uri
+import androidx.core.os.bundleOf
 import com.beok.noticeboard.data.service.FirebaseService
 import com.beok.noticeboard.model.DayLife
 import com.google.android.gms.tasks.Task
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.Query
 import javax.inject.Inject
@@ -124,6 +126,17 @@ class FirebaseRepositoryImpl @Inject constructor(
                         .addOnCanceledListener { onComplete(false) }
                 }
         }
+    }
+
+    override fun startEventLog(itemId: String, itemName: String, contentType: String) {
+        service.firebaseAnalytics.logEvent(
+            FirebaseAnalytics.Event.SELECT_CONTENT,
+            bundleOf(
+                FirebaseAnalytics.Param.ITEM_ID to itemId,
+                FirebaseAnalytics.Param.ITEM_NAME to itemName,
+                FirebaseAnalytics.Param.CONTENT_TYPE to contentType
+            )
+        )
     }
 
     private fun updateFirebaseProfile(
