@@ -1,10 +1,13 @@
 package com.beok.noticeboard.di
 
+import android.content.Context
 import com.beok.noticeboard.dailylife.DayLifeComponent
 import com.beok.noticeboard.data.FirebaseModule
 import com.beok.noticeboard.login.LoginComponent
 import com.beok.noticeboard.main.MainComponent
+import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
@@ -13,7 +16,11 @@ interface AppComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(): AppComponent
+        fun create(
+            @BindsInstance
+            @Named("applicationContext")
+            context: Context
+        ): AppComponent
     }
 
     fun loginComponent(): LoginComponent.Factory

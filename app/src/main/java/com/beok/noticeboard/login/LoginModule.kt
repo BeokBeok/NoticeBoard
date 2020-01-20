@@ -11,12 +11,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import javax.inject.Named
 
 @Module(includes = [LoginModule.BindModules::class])
 class LoginModule {
 
     @Provides
-    fun provideGoogleSignInClient(context: Context): GoogleSignInClient =
+    fun provideGoogleSignInClient(@Named("loginContext") context: Context): GoogleSignInClient =
         GoogleSignIn.getClient(
             context,
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
