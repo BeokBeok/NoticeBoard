@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DayLifeViewModel @Inject constructor(
@@ -26,12 +27,15 @@ class DayLifeViewModel @Inject constructor(
 
     fun postDayLife(posts: String) {
         showProgressbar()
+        val startPostingSec = System.currentTimeMillis()
         _imageUriList.value?.let { uriList ->
             repository.postDayLife(
                 uriList, posts,
                 onComplete = { isSuccess ->
-                    if (isSuccess) doPost()
-                    else doCancel()
+                    if (isSuccess) {
+                        startPostingTimeEventLog(System.currentTimeMillis() - startPostingSec)
+                        doPost()
+                    } else doCancel()
                 }, onFailure = {
                     doCancel()
                 }
@@ -59,6 +63,14 @@ class DayLifeViewModel @Inject constructor(
 
     private fun setImageUri(uriList: List<Uri>) {
         _imageUriList.value = uriList
+    }
+
+    private fun startPostingTimeEventLog(sec: Long) {
+        repository.startEventLog(
+            "uploadTime",
+            "${TimeUnit.MILLISECONDS.toSeconds(sec)}",
+            "posting"
+        )
     }
 
     companion object {

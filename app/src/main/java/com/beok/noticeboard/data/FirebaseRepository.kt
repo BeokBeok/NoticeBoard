@@ -22,4 +22,6 @@ interface FirebaseRepository {
         onComplete: (Boolean) -> Unit,
         onFailure: (Exception?) -> Unit
     )
+
+    fun startEventLog(itemId: String, itemName: String, contentType: String)
 }

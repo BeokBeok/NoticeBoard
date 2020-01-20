@@ -1,10 +1,13 @@
 package com.beok.noticeboard.data.service
 
+import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class FirebaseServiceModule {
@@ -13,8 +16,10 @@ class FirebaseServiceModule {
     fun provideFirebaseService(
         firebaseAuth: FirebaseAuth,
         firebaseStorage: FirebaseStorage,
-        firebaseFirestore: FirebaseFirestore
-    ): FirebaseService = FirebaseService(firebaseAuth, firebaseStorage, firebaseFirestore)
+        firebaseFirestore: FirebaseFirestore,
+        firebaseAnalytics: FirebaseAnalytics
+    ): FirebaseService =
+        FirebaseService(firebaseAuth, firebaseStorage, firebaseFirestore, firebaseAnalytics)
 
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
@@ -24,4 +29,8 @@ class FirebaseServiceModule {
 
     @Provides
     fun provideFirebaseFirestorage(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Provides
+    fun provideFirebaseAnalytics(@Named("applicationContext") context: Context): FirebaseAnalytics =
+        FirebaseAnalytics.getInstance(context)
 }
