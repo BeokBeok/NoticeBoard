@@ -51,6 +51,7 @@ dependencies {
     implementation Libraries.FIREBASE_STORAGE
     implementation Libraries.FIREBASE_FIRESTORE
     implementation Libraries.FIREBASE_CRASHLYTICS
+    implementation Libraries.FIREBASE_IN_APP_MESSAGING
 
     implementation Libraries.PLAY_SERVICES_AUTH
 
