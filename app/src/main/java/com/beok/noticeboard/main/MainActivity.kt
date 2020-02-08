@@ -61,6 +61,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
             adapter = MainAdapter()
         }
         viewModel.run {
+            registerFCMToken()
             setupProfile()
             refreshDayLife()
         }
