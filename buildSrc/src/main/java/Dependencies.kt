@@ -13,6 +13,7 @@ object Version {
     const val FIREBASE_FIRESTORE = "21.3.1"
     const val FIREBASE_CRASHLYTICS = "17.0.0-beta01"
     const val FIREBASE_IN_APP_MESSAGING = "19.0.3"
+    const val FIREBASE_FCM = "20.1.0"
 
     const val PLAY_SERVICES_AUTH = "17.0.0"
 
@@ -49,6 +50,7 @@ object Libraries {
         "com.google.firebase:firebase-crashlytics:${Version.FIREBASE_CRASHLYTICS}"
     const val FIREBASE_IN_APP_MESSAGING =
         "com.google.firebase:firebase-inappmessaging-display-ktx:${Version.FIREBASE_IN_APP_MESSAGING}"
+    const val FIREBASE_FCM = "com.google.firebase:firebase-messaging:${Version.FIREBASE_FCM}"
 
     const val PLAY_SERVICES_AUTH =
         "com.google.android.gms:play-services-auth:${Version.PLAY_SERVICES_AUTH}"
