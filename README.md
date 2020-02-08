@@ -19,5 +19,7 @@
   - Storage
   - FireStore
   - Auth
+  - In App Messaging
+  - Cloud Messaging
 - DI
   - Dagger2
