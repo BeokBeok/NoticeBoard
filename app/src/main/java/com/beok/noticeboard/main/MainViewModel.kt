@@ -70,6 +70,10 @@ class MainViewModel @Inject constructor(private val repository: FirebaseReposito
         )
     }
 
+    fun registerFCMToken() {
+        repository.registerFCMToken()
+    }
+
     private fun showProfileName(profileName: String) {
         _profileName.value = profileName
     }
