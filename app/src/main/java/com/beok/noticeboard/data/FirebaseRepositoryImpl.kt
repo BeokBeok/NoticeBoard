@@ -4,10 +4,12 @@ import android.net.Uri
 import androidx.core.os.bundleOf
 import com.beok.noticeboard.data.service.FirebaseService
 import com.beok.noticeboard.model.DayLife
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.Query
+import com.google.firebase.iid.FirebaseInstanceId
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
@@ -156,5 +158,14 @@ class FirebaseRepositoryImpl @Inject constructor(
                 onComplete(true)
             }
             ?.addOnFailureListener { onFailure(it) }
+    }
+
+    override fun registerFCMToken() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+            })
     }
 }

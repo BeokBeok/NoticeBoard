@@ -24,4 +24,6 @@ interface FirebaseRepository {
     )
 
     fun startEventLog(itemId: String, itemName: String, contentType: String)
+
+    fun registerFCMToken()
 }
