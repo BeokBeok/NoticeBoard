@@ -1,5 +1,6 @@
 package com.beok.noticeboard.base
 
+import android.util.ArrayMap
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
@@ -8,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseAdapter<ITEM : Any, VDB : ViewDataBinding>(
     @LayoutRes
     private val layoutRes: Int,
-    private val bindingId: Int?
+    private val bindingId: Int?,
+    private val viewModels: ArrayMap<Int?, BaseViewModel>? = null
 ) : RecyclerView.Adapter<BaseViewHolder<VDB>>() {
 
     private val itemList = mutableListOf<ITEM>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<VDB> =
-        object : BaseViewHolder<VDB>(layoutRes, parent, bindingId) {}
+        object : BaseViewHolder<VDB>(layoutRes, parent, bindingId, viewModels) {}
 
     override fun getItemCount(): Int = itemList.size
 
