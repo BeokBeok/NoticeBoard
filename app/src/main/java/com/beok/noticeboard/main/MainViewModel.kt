@@ -4,11 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
 import com.beok.noticeboard.model.DayLife
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val repository: FirebaseRepository) :
@@ -42,7 +44,7 @@ class MainViewModel @Inject constructor(private val repository: FirebaseReposito
             Event(ActivityCommand.StartActivityForResult(dayLifeIntent, REQ_POST_DAY_LIFE))
     }
 
-    fun setupProfile() {
+    fun setupProfile() = viewModelScope.launch {
         showProgressbar()
         showProfileName(repository.getProfileName())
         repository.downloadProfileImage(
@@ -52,20 +54,20 @@ class MainViewModel @Inject constructor(private val repository: FirebaseReposito
             },
             onFailure = {
                 hideProgressbar()
-                _errMsg.value = it?.message ?: ""
+                setErrorMsg(it)
             }
         )
     }
 
-    fun refreshDayLife() {
+    fun refreshDayLife() = viewModelScope.launch {
         showProgressbar()
         repository.requestDayLife(
             onComplete = {
                 hideProgressbar()
-                _dayLife.value = it
+                setDayLifeContents(it)
             }, onFailure = {
                 hideProgressbar()
-                _errMsg.value = it?.message ?: ""
+                setErrorMsg(it)
             }
         )
     }
@@ -75,10 +77,10 @@ class MainViewModel @Inject constructor(private val repository: FirebaseReposito
     }
 
     private fun showProfileName(profileName: String) {
-        _profileName.value = profileName
+        _profileName.postValue(profileName)
     }
 
-    private fun uploadProfileImage(uri: Uri) {
+    private fun uploadProfileImage(uri: Uri) = viewModelScope.launch {
         showProgressbar()
         repository.updateProfileImage(
             uri,
@@ -87,21 +89,29 @@ class MainViewModel @Inject constructor(private val repository: FirebaseReposito
                 showProfileImage(uri)
             }, onFailure = {
                 hideProgressbar()
-                _errMsg.value = it?.message ?: ""
+                setErrorMsg(it)
             }
         )
     }
 
     private fun showProfileImage(uri: Uri?) {
-        _imageUri.value = uri
+        _imageUri.postValue(uri)
     }
 
     private fun hideProgressbar() {
-        _isLoading.value = false
+        _isLoading.postValue(false)
     }
 
     private fun showProgressbar() {
-        _isLoading.value = true
+        _isLoading.postValue(true)
+    }
+
+    private fun setErrorMsg(e: Exception?) {
+        _errMsg.postValue(e?.message ?: "")
+    }
+
+    private fun setDayLifeContents(contents: List<DayLife>?) {
+        _dayLife.postValue(contents)
     }
 
     companion object {

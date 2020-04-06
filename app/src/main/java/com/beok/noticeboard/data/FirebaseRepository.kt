@@ -5,18 +5,22 @@ import com.beok.noticeboard.model.DayLife
 
 interface FirebaseRepository {
 
-    fun downloadProfileImage(onComplete: (Uri?) -> Unit, onFailure: (Exception?) -> Unit)
+    suspend fun downloadProfileImage(onComplete: (Uri?) -> Unit, onFailure: (Exception?) -> Unit)
 
     fun getProfileName(): String
 
-    fun requestDayLife(
+    suspend fun requestDayLife(
         onComplete: (List<DayLife>?) -> Unit,
         onFailure: (Exception?) -> Unit
     )
 
-    fun updateProfileImage(uri: Uri, onComplete: (Boolean) -> Unit, onFailure: (Exception?) -> Unit)
+    suspend fun updateProfileImage(
+        uri: Uri,
+        onComplete: (Boolean) -> Unit,
+        onFailure: (Exception?) -> Unit
+    )
 
-    fun postDayLife(
+    suspend fun postDayLife(
         uriList: List<Uri>,
         posts: String,
         onComplete: (Boolean) -> Unit,

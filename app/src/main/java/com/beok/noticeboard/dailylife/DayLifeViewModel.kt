@@ -3,8 +3,10 @@ package com.beok.noticeboard.dailylife
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -25,7 +27,7 @@ class DayLifeViewModel @Inject constructor(
         setImageUri(uriList)
     }
 
-    fun postDayLife(posts: String) {
+    fun postDayLife(posts: String) = viewModelScope.launch {
         showProgressbar()
         val startPostingSec = System.currentTimeMillis()
         _imageUriList.value?.let { uriList ->
@@ -44,25 +46,25 @@ class DayLifeViewModel @Inject constructor(
     }
 
     fun doCancel() {
-        _onActivityResultConst.value = RES_RESULT_CANCELED
+        _onActivityResultConst.postValue(RES_RESULT_CANCELED)
         hideProgressbar()
     }
 
     private fun doPost() {
-        _onActivityResultConst.value = RES_RESULT_OK
+        _onActivityResultConst.postValue(RES_RESULT_OK)
         hideProgressbar()
     }
 
     private fun showProgressbar() {
-        _isLoading.value = true
+        _isLoading.postValue(true)
     }
 
     private fun hideProgressbar() {
-        _isLoading.value = false
+        _isLoading.postValue(false)
     }
 
     private fun setImageUri(uriList: List<Uri>) {
-        _imageUriList.value = uriList
+        _imageUriList.postValue(uriList)
     }
 
     private fun startPostingTimeEventLog(sec: Long) {
