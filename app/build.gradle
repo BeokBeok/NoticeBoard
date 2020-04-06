@@ -56,7 +56,7 @@ dependencies {
 
     implementation Libraries.PLAY_SERVICES_AUTH
 
-    implementation Libraries.LIFECYCLE_VM
+    implementation Libraries.LIFECYCLE_VM_KTX
     implementation Libraries.LIFECYCLE_EXT
 
     implementation Libraries.DAGGER
