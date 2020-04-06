@@ -3,15 +3,18 @@ package com.beok.noticeboard.login
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
+import com.beok.noticeboard.utils.await
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(private val googleSignInClient: GoogleSignInClient) :
@@ -37,7 +40,7 @@ class LoginViewModel @Inject constructor(private val googleSignInClient: GoogleS
             Event(ActivityCommand.StartActivityForResult(signInIntent, REQ_RC_SIGN_IN))
     }
 
-    fun onResultFromActivity(requestCode: Int, data: Intent?) {
+    fun onResultFromActivity(requestCode: Int, data: Intent?) = viewModelScope.launch {
         if (requestCode == REQ_RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
@@ -49,13 +52,18 @@ class LoginViewModel @Inject constructor(private val googleSignInClient: GoogleS
         }
     }
 
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) = viewModelScope.launch {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                _isSuccessLogin.value = task.isSuccessful
-                if (!task.isSuccessful) _errMsg.value = task.exception?.message
+        try {
+            val authResult = auth.signInWithCredential(credential).await()
+            if (authResult.user == null) {
+                _errMsg.value = "User info is null"
+            } else {
+                _isSuccessLogin.value = true
             }
+        } catch (e: Exception) {
+            _errMsg.value = e.message
+        }
     }
 
     companion object {
