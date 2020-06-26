@@ -10,9 +10,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.multibindings.IntoMap
 import javax.inject.Named
 
+@InstallIn(ActivityComponent::class)
 @Module(includes = [LoginModule.BindModules::class])
 class LoginModule {
 
@@ -26,6 +29,7 @@ class LoginModule {
                 .build()
         )
 
+    @InstallIn(ActivityComponent::class)
     @Module
     interface BindModules {
         @Binds

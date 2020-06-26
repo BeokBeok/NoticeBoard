@@ -7,7 +7,10 @@ import com.beok.noticeboard.main.MainComponent
 import com.beok.noticeboard.utils.ViewModelFactory
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
+@InstallIn(ApplicationComponent::class)
 @Module(
     subcomponents = [
         LoginComponent::class,
