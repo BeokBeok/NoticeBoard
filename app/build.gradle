@@ -12,9 +12,11 @@ apply plugin: "scabbard.gradle"
 
 apply plugin: "com.google.firebase.crashlytics"
 
+apply plugin: "dagger.hilt.android.plugin"
+
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "com.beok.noticeboard"
         minSdkVersion 23
@@ -68,4 +70,9 @@ dependencies {
     annotationProcessor Libraries.GLIDE_COMPILER
 
     implementation Libraries.COROUTINE
+
+    implementation Libraries.HILT_ANDROID
+    implementation Libraries.DAGGER_HILT_LIFECYCLE_VM
+    kapt Libraries.HILT_ANDROID_COMPILER
+    kapt Libraries.HILT_COMPILER
 }
