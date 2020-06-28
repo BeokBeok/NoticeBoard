@@ -77,4 +77,5 @@ object Libraries {
 
     const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.COROUTINE}"
 
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:1.1.0"
 }

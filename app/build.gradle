@@ -75,4 +75,6 @@ dependencies {
     implementation Libraries.DAGGER_HILT_LIFECYCLE_VM
     kapt Libraries.HILT_ANDROID_COMPILER
     kapt Libraries.HILT_COMPILER
+
+    implementation Libraries.ACTIVITY_KTX
 }
