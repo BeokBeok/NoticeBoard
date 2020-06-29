@@ -9,7 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import javax.inject.Named
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @InstallIn(ApplicationComponent::class)
 @Module
@@ -34,6 +34,6 @@ class FirebaseServiceModule {
     fun provideFirebaseFirestorage(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @Provides
-    fun provideFirebaseAnalytics(@Named("applicationContext") context: Context): FirebaseAnalytics =
+    fun provideFirebaseAnalytics(@ApplicationContext context: Context): FirebaseAnalytics =
         FirebaseAnalytics.getInstance(context)
 }

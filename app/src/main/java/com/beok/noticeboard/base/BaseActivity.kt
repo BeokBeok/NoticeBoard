@@ -6,8 +6,6 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProvider
-import javax.inject.Inject
 
 abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes
@@ -16,20 +14,14 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : BaseViewModel>(
 
     protected lateinit var binding: VDB
 
-    @Inject
-    protected lateinit var viewModelFactory: ViewModelProvider.Factory
-
     protected abstract val viewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setupInjection()
         super.onCreate(savedInstanceState)
         setupBinding()
         setupViewModel()
         setupObserver()
     }
-
-    protected abstract fun setupInjection()
 
     protected abstract fun setupViewModel()
 

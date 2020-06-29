@@ -2,6 +2,7 @@ package com.beok.noticeboard.main
 
 import android.content.Intent
 import android.net.Uri
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,9 +12,8 @@ import com.beok.noticeboard.model.DayLife
 import com.beok.noticeboard.utils.ActivityCommand
 import com.beok.noticeboard.utils.Event
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val repository: FirebaseRepository) :
+class MainViewModel @ViewModelInject constructor(private val repository: FirebaseRepository) :
     BaseViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>(false)

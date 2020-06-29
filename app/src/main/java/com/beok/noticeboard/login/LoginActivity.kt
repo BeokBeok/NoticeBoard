@@ -2,26 +2,19 @@ package com.beok.noticeboard.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.base.BaseActivity
 import com.beok.noticeboard.databinding.ActivityLoginBinding
 import com.beok.noticeboard.main.MainActivity
 import com.beok.noticeboard.utils.ActivityCommand
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layout.activity_login) {
 
-    override val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
-    }
-
-    override fun setupInjection() =
-        (application as MyApplication).appComponent.loginComponent()
-            .create(this)
-            .inject(this)
+    override val viewModel by viewModels<LoginViewModel>()
 
     override fun setupViewModel() {
         binding.viewModel = viewModel
