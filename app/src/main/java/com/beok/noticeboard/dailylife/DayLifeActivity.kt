@@ -2,26 +2,20 @@ package com.beok.noticeboard.dailylife
 
 import android.os.Bundle
 import android.text.InputType
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.beok.noticeboard.MyApplication
 import com.beok.noticeboard.R
 import com.beok.noticeboard.base.BaseActivity
 import com.beok.noticeboard.databinding.ActivityDayLifeBinding
 import com.beok.noticeboard.wrapper.BeokGlide
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DayLifeActivity :
     BaseActivity<ActivityDayLifeBinding, DayLifeViewModel>(R.layout.activity_day_life) {
 
-    override val viewModel: DayLifeViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[DayLifeViewModel::class.java]
-    }
-
-    override fun setupInjection() =
-        (application as MyApplication).appComponent.dayLifeComponent()
-            .create()
-            .inject(this)
+    override val viewModel: DayLifeViewModel by viewModels<DayLifeViewModel>()
 
     override fun setupViewModel() {
         binding.vm = viewModel

@@ -21,12 +21,14 @@ object Version {
 
     const val DAGGER = "2.25.4"
 
-    const val TEDIMGPICKER = "1.0.8"
+    const val TEDIMGPICKER = "1.1.3"
 
     const val GLIDE = "4.10.0"
 
     const val COROUTINE = "1.3.3"
 
+    const val HILT_VER = "2.28-alpha"
+    const val HILT_JETPACK_VER = "1.0.0-alpha01"
 }
 
 object Libraries {
@@ -61,6 +63,13 @@ object Libraries {
     const val DAGGER = "com.google.dagger:dagger:${Version.DAGGER}"
     const val DAGGER_COMPILER = "com.google.dagger:dagger-compiler:${Version.DAGGER}"
 
+    const val HILT_ANDROID = "com.google.dagger:hilt-android:${Version.HILT_VER}"
+    const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Version.HILT_VER}"
+
+    const val DAGGER_HILT_LIFECYCLE_VM =
+        "androidx.hilt:hilt-lifecycle-viewmodel:${Version.HILT_JETPACK_VER}"
+    const val HILT_COMPILER = "androidx.hilt:hilt-compiler:${Version.HILT_JETPACK_VER}"
+
     const val TEDIMGPICKER = "gun0912.ted:tedimagepicker:${Version.TEDIMGPICKER}"
 
     const val GLIDE = "com.github.bumptech.glide:glide:${Version.GLIDE}"
@@ -68,4 +77,5 @@ object Libraries {
 
     const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.COROUTINE}"
 
+    const val ACTIVITY_KTX = "androidx.activity:activity-ktx:1.1.0"
 }
