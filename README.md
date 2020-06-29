@@ -22,4 +22,5 @@
   - In App Messaging
   - Cloud Messaging
 - DI
-  - Dagger2
+  - ~Dagger2~
+  - Hilt
