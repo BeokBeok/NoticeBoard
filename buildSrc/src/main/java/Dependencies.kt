@@ -21,7 +21,7 @@ object Version {
 
     const val DAGGER = "2.25.4"
 
-    const val TEDIMGPICKER = "1.0.8"
+    const val TEDIMGPICKER = "1.1.3"
 
     const val GLIDE = "4.10.0"
 
