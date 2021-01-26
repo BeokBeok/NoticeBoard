@@ -32,7 +32,7 @@ object Version {
 }
 
 object Libraries {
-    const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Version.KOTLIN}"
+    const val KOTLIN_STDLIB_JDK = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Version.KOTLIN}"
     const val MATERIAL = "com.google.android.material:material:${Version.MATERIAL}"
     const val CORE_KTX = "androidx.core:core-ktx:${Version.CORE_KTX}"
     const val CONSTRAINT_LAYOUT =
