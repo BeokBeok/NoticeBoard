@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NoticeBoard</string>
+    <string name="app_name">BeokBoard</string>
     <string name="default_notification_channel_id">fcm</string>
 
     <string name="msg_login_fail">로그인 실패</string>
