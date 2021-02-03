@@ -29,6 +29,9 @@
 # Firebase FireStore
 -keep class com.google.firebase.example.fireeats.java.model.** { *; }
 -keep class com.google.firebase.example.fireeats.kotlin.model.** { *; }
+-keepclassmembers class com.beok.noticeboard.model.** {
+  *;
+}
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -38,7 +41,4 @@
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
-}
--keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
-  *** rewind();
 }
