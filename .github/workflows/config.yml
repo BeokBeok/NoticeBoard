@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: cancelling
+        uses: andymckay/cancel-action@0.2
+        
       - name: Checkout
         uses: actions/checkout@v2
 
