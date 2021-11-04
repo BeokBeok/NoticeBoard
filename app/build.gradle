@@ -61,13 +61,11 @@ dependencies {
     implementation Libraries.TEDIMGPICKER
 
     implementation Libraries.GLIDE
-    annotationProcessor Libraries.GLIDE_COMPILER
+    kapt Libraries.GLIDE_COMPILER
 
     implementation Libraries.COROUTINE
 
     implementation Libraries.HILT_ANDROID
-    implementation Libraries.DAGGER_HILT_LIFECYCLE_VM
-    kapt Libraries.HILT_ANDROID_COMPILER
     kapt Libraries.HILT_COMPILER
 
     implementation Libraries.ACTIVITY_KTX
