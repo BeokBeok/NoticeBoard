@@ -1,18 +1,11 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'com.google.gms.google-services'
-
-apply plugin: 'kotlin-kapt'
-
-apply plugin: "scabbard.gradle"
-
-apply plugin: "com.google.firebase.crashlytics"
-
-apply plugin: "dagger.hilt.android.plugin"
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+    id "com.google.firebase.crashlytics"
+    id "dagger.hilt.android.plugin"
+}
 
 android {
     compileSdkVersion 30
@@ -31,11 +24,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled true
-    }
-    scabbard {
-        enabled true
+    buildFeatures {
+        dataBinding true
     }
 
     kotlinOptions {
