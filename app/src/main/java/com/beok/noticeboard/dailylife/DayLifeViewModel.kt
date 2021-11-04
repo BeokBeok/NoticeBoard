@@ -1,16 +1,18 @@
 package com.beok.noticeboard.dailylife
 
 import android.net.Uri
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.beok.noticeboard.base.BaseViewModel
 import com.beok.noticeboard.data.FirebaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class DayLifeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class DayLifeViewModel @Inject constructor(
     private val repository: FirebaseRepository
 ) : BaseViewModel() {
 
