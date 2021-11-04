@@ -1,7 +1,6 @@
 package com.beok.noticeboard.login
 
 import android.content.Intent
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -15,10 +14,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class LoginViewModel @ViewModelInject constructor(private val googleSignInClient: GoogleSignInClient) :
-    BaseViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val googleSignInClient: GoogleSignInClient
+) : BaseViewModel() {
 
     private val _startActivityForResultEvent = MutableLiveData<Event<ActivityCommand>>()
     val startActivityForResultEvent: LiveData<Event<ActivityCommand>>

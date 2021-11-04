@@ -8,15 +8,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 class LoginModule {
 
     @Provides
-    fun provideGoogleSignInClient(@ActivityContext context: Context): GoogleSignInClient =
+    fun provideGoogleSignInClient(@ApplicationContext context: Context): GoogleSignInClient =
         GoogleSignIn.getClient(
             context,
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
